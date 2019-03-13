@@ -3,13 +3,16 @@
 // MainActivityFragment and SettingsActivityFragment on a tablet
 package com.deitel.flagquiz;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,13 +21,18 @@ import android.widget.Toast;
 
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnFragmentInteractionListener , Dialog_Fragment.OnFragmentInteractionListener {
    // keys for reading data from SharedPreferences
    public static final String CHOICES = "pref_numberOfChoices";
    public static final String REGIONS = "pref_regionsToInclude";
    public static final String PLAYERS ="pref_numberOfPlayers";
    private boolean phoneDevice = true; // used to force portrait mode
    private boolean preferencesChanged = true; // did preferences change?
+   public interface OnFragmentInteractionListener {
+       void onFragmentInteraction(Uri uri);
+   }
+
+
 
    // configure the MainActivity
    @Override
@@ -34,7 +42,11 @@ public class MainActivity extends AppCompatActivity {
       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
       setSupportActionBar(toolbar);
 
-      // set default values in the app's SharedPreferences
+
+       SharedPreferences pref = this.getSharedPreferences("Pref", Context.MODE_PRIVATE);
+
+
+       // set default values in the app's SharedPreferences
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
       // register listener for SharedPreferences changes
@@ -145,6 +157,13 @@ public class MainActivity extends AppCompatActivity {
                Toast.LENGTH_SHORT).show();
          }
       };
+
+
+    public void onFragmentInteraction(Uri uri){
+
+    }
+
+
 }
 
 
