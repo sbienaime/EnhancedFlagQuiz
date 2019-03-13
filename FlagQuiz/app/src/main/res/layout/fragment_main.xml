@@ -1,3 +1,12 @@
+
+
+
+
+
+
+
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
@@ -11,27 +20,94 @@
               android:orientation="vertical"
               android:id="@+id/quizLinearLayout">
 
-   <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:textAppearance="?android:attr/textAppearanceMedium"
-      android:text="@string/question"
-      android:id="@+id/questionNumberTextView"
-      android:layout_gravity="center_horizontal"
-      android:layout_marginBottom="@dimen/spacing"/>
 
-   <ImageView
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:id="@+id/flagImageView"
-      android:layout_gravity="center"
-      android:layout_marginBottom="@dimen/spacing"
-      android:layout_marginLeft="@dimen/activity_horizontal_margin"
-      android:layout_marginRight="@dimen/activity_horizontal_margin"
-      android:layout_weight="1"
-      android:adjustViewBounds="true"
-      android:contentDescription="@string/image_description"
-      android:scaleType="fitCenter"/>
+    <LinearLayout
+        android:id="@+id/row1LinearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="300">
+
+
+        <TextView
+            android:id="@+id/ScoreView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="70"
+            android:text="Score" />
+
+        <TextView
+            android:id="@+id/ScoreDisplayer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="230"
+            android:hint="0 " />
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/row1LinearLayout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="300"
+        >
+
+    <TextView
+            android:id="@+id/textView5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="70"
+
+            android:text=" First Attempts" />
+
+        <TextView
+            android:id="@+id/FirstAttemptsDisplayer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="230"
+            android:hint="0" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/questionNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing"
+        android:text="@string/question"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/flagImageView"
+        android:layout_width="353dp"
+        android:layout_height="186dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/spacing"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image_description"
+        android:scaleType="fitCenter" />
 
    <TextView
       android:layout_width="wrap_content"

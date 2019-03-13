@@ -28,10 +28,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
    public static final String PLAYERS ="pref_numberOfPlayers";
    private boolean phoneDevice = true; // used to force portrait mode
    private boolean preferencesChanged = true; // did preferences change?
-   public interface OnFragmentInteractionListener {
-       void onFragmentInteraction(Uri uri);
-   }
-
 
 
    // configure the MainActivity
@@ -41,10 +37,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
       setContentView(R.layout.activity_main);
       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
       setSupportActionBar(toolbar);
-
-
-       SharedPreferences pref = this.getSharedPreferences("Pref", Context.MODE_PRIVATE);
-
 
        // set default values in the app's SharedPreferences
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);

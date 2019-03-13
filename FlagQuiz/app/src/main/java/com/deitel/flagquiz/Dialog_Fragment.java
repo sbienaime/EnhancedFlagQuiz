@@ -31,8 +31,7 @@ import android.view.ViewGroup;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    public static int DialogCompletionSignal=0;
-     static int guesses;
+    static int guesses;
 
 
 
@@ -43,6 +42,8 @@ import android.view.ViewGroup;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////------------------CONSTRUCTOR FROM STACKOVERFLOW-------------////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /// this constructor helps solve the run time error caused by not using the DialogFragment class from a non static context
     public static Dialog_Fragment newInstance(int title, int totalguesses ) {
         Dialog_Fragment frag = new Dialog_Fragment();
         Bundle args = new Bundle();
@@ -69,17 +70,12 @@ import android.view.ViewGroup;
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {
-                        //sends reset signal
-                        DialogCompletionSignal=1;
+
                     }
 
 
                 }
         );
-        //this.setCancelable(false);
-       // this.show(MainActivityFragment.getFragmentManager(),
-        // "quiz results");
-
 
         return builder.create(); // return the AlertDialog
 
@@ -87,37 +83,7 @@ import android.view.ViewGroup;
     }
 
 
-//use FragmentManager to display the DialogFragment
 
-
-    /*public Dialog onCreateDialog(Bundle bundle) {
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(getActivity());
-        builder.setMessage(
-                getString(R.string.results,
-                        MainActivityFragment.MainActivityFragment.MainActivityFragment.totalGuesses,
-                        (1000 / (double) MainActivityFragment.MainActivityFragment.MainActivityFragment.totalGuesses)));
-
-        // "Reset Quiz" Button
-        builder.setPositiveButton(R.string.reset_quiz,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,
-                                        int id) {
-
-
-                        ///////////////////////                  ///////////////////////////////////////////////////////////////////////////////////////////////////////
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        //MainActivityFragment.resetQuiz();
-
-                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    }
-                }
-        );
-
-        return builder.create(); // return the AlertDialog
-    }*/
     public Dialog_Fragment() {
         // Required empty public constructor
     }
