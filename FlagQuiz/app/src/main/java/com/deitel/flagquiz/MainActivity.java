@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
+//import android.content.res.Configuration;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;

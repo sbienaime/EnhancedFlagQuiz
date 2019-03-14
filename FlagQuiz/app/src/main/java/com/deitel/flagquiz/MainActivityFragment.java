@@ -12,10 +12,12 @@ import java.util.Set;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -284,135 +286,6 @@ public  class  MainActivityFragment extends Fragment{
    }
 
 
-    private  void loadBonus() {
-        AvailableAttempts=guessRows*2;
-        // get file name of the next flag and remove it from the list
-        String nextImage = quizCountriesList.remove(0);
-        correctAnswer = nextImage; // update the correct answer
-        answerTextView.setText(""); // clear answerTextView
-
-        // display current question number
-        questionNumberTextView.setText(" Bonus Question");
-
-        // extract the region from the next image's name
-        String region = nextImage.substring(0, nextImage.indexOf('-'));
-
-        // use AssetManager to load next image from assets folder
-        AssetManager assets = getActivity().getAssets();
-
-        // get an InputStream to the asset representing the next flag
-        // and try to use the InputStream
-        try (InputStream stream =
-                     assets.open(region + "/" + nextImage + ".png")) {
-            // load the asset as a Drawable and display on the flagImageView
-            Drawable flag = Drawable.createFromStream(stream, nextImage);
-            flagImageView.setImageDrawable(flag);
-
-            animate(false); // animate the flag onto the screen
-        }
-        catch (IOException exception) {
-            Log.e(TAG, "Error loading " + nextImage, exception);
-        }
-
-        Collections.shuffle(fileNameList); // shuffle file names
-
-        // put the correct answer at the end of fileNameList
-        int correct = fileNameList.indexOf(correctAnswer);
-        fileNameList.add(fileNameList.remove(correct));
-
-        // add 2, 4, 6 or 8 guess Buttons based on the value of guessRows
-        for (int row = 0; row < guessRows; row++) {
-            // place Buttons in currentTableRow
-            for (int column = 0;
-                 column < guessLinearLayouts[row].getChildCount();
-                 column++) {
-                // get reference to Button to configure
-                Button newGuessButton =
-                        (Button) guessLinearLayouts[row].getChildAt(column);
-                newGuessButton.setEnabled(true);
-
-                // get country name and set it as newGuessButton's text
-                String filename = fileNameList.get((row * 2) + column);
-                newGuessButton.setText(getCountryName(filename));
-            }
-        }
-
-        // randomly replace one Button with the correct answer
-        int row = random.nextInt(guessRows); // pick random row
-        int column = random.nextInt(2); // pick random column
-        LinearLayout randomRow = guessLinearLayouts[row]; // get the row
-        String countryName = getCountryName(correctAnswer);
-        ((Button) randomRow.getChildAt(column)).setText(countryName);
-    }
-
-
-
-
-   // after the user guesses a correct flag, load the next flag
-
-    private  void loadBonusFlag() {
-        AvailableAttempts=guessRows*2;
-        // get file name of the next flag and remove it from the list
-        String nextImage = quizCountriesList.remove(0);
-        correctAnswer = nextImage; // update the correct answer
-        answerTextView.setText(""); // clear answerTextView
-
-        // display current question number
-        questionNumberTextView.setText("Bonus Question");//#lp12
-
-        // extract the region from the next image's name
-        String region = nextImage.substring(0, nextImage.indexOf('-'));
-
-        // use AssetManager to load next image from assets folder
-        AssetManager assets = getActivity().getAssets();
-
-        // get an InputStream to the asset representing the next flag
-        // and try to use the InputStream
-        try (InputStream stream =
-                     assets.open(region + "/" + nextImage + ".png")) {
-            // load the asset as a Drawable and display on the flagImageView
-            Drawable flag = Drawable.createFromStream(stream, nextImage);
-            flagImageView.setImageDrawable(flag);
-
-            animate(false); // animate the flag onto the screen
-        }
-        catch (IOException exception) {
-            Log.e(TAG, "Error loading " + nextImage, exception);
-        }
-
-        Collections.shuffle(fileNameList); // shuffle file names
-
-        // put the correct answer at the end of fileNameList
-        int correct = fileNameList.indexOf(correctAnswer);
-        fileNameList.add(fileNameList.remove(correct));
-
-        // add 2, 4, 6 or 8 guess Buttons based on the value of guessRows
-        for (int row = 0; row < guessRows; row++) {
-            // place Buttons in currentTableRow
-            for (int column = 0;
-                 column < guessLinearLayouts[row].getChildCount();
-                 column++) {
-                // get reference to Button to configure
-                Button newGuessButton =
-                        (Button) guessLinearLayouts[row].getChildAt(column);
-                newGuessButton.setEnabled(true);
-
-                // get country name and set it as newGuessButton's text
-                String filename = fileNameList.get((row * 2) + column);
-                newGuessButton.setText(getCountryName(filename));
-            }
-        }
-
-        // randomly replace one Button with the correct answer
-        int row = random.nextInt(guessRows); // pick random row
-        int column = random.nextInt(2); // pick random column
-        LinearLayout randomRow = guessLinearLayouts[row]; // get the row
-        String countryName = getCountryName(correctAnswer);
-        ((Button) randomRow.getChildAt(column)).setText(countryName);
-    }
-
-
-
    private  void loadNextFlag() {
         AvailableAttempts=guessRows*2;
       // get file name of the next flag and remove it from the list
@@ -448,7 +321,7 @@ public  class  MainActivityFragment extends Fragment{
 
       // put the correct answer at the end of fileNameList
       int correct = fileNameList.indexOf(correctAnswer);
-      fileNameList.add(fileNameList.remove(correct));
+      fileNameList.add(fileNameList.remove(correct));//##filenamelist
 
       // add 2, 4, 6 or 8 guess Buttons based on the value of guessRows
       for (int row = 0; row < guessRows; row++) {
@@ -558,12 +431,21 @@ public  class  MainActivityFragment extends Fragment{
 
 // #123
                   if (AvailableAttempts==NumberOfButtons) {
+                      Intent i = new Intent(getContext(), BonusActivity.class);
+                      startActivityForResult(i, 0);
 
+
+                      // was used to keep quiz to 10 questions , most likely unecessary due to updates
+                     //  ****correctAnswers--;
                       CorrectOnFirstTry++;
                       Log.i( "FirstTry" ,CorrectOnFirstTry + "");
                       deduction=0;
                       AccumulatedPoints = AccumulatedPoints + PointsPerQuestion;
-                      Log.i("CompletePoints",AccumulatedPoints+"");
+                      Log.i("AccumulatePoints",AccumulatedPoints+"");
+
+                    //  loadBonusFlag();
+
+
                       handler.postDelayed(
                               new Runnable() {
                                   @Override
@@ -613,7 +495,7 @@ public  class  MainActivityFragment extends Fragment{
                                                 getResources().getColor(R.color.correct_answer,
                                                         getContext().getTheme()));
 
-                                        Log.i("PartialPoints",AccumulatedPoints+"");
+                                        Log.i("AcummulatedPoints ",AccumulatedPoints+"");
                                     }//rest points given and deductions after  correct answer has been given
                                     deduction=0;
                                     points_Given=0;
@@ -702,207 +584,7 @@ public  class  MainActivityFragment extends Fragment{
         }
     };
 
-   /*//#btn called when a guess Button is touched
 
-
-   private OnClickListener guessButtonListener = new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-
-
-
-
-         Button guessButton = ((Button) v);
-         String guess = guessButton.getText().toString();
-         String answer = getCountryName(correctAnswer);
-         ++totalGuesses; // increment number of guesses the user has made
-
-        // set the preferences to
-
-
-
-
-         if (guess.equals(answer) && AvailableAttempts== NumberOfButtons) { // if the guess is correct
-            ++correctAnswers; // increment the number of correct answers
-             answerTextView.setText(R.string.BonusPoints);
-             answerTextView.setTextColor(
-                     getResources().getColor(R.color.correct_answer,
-                             getContext().getTheme()));
-
-            /* if( AvailableAttempts == NumberOfButtons){
-                 CorrectOnFirstTry++;
-                 AccumulatedPoints = PointsPerQuestion + 10;
-
-
-                 handler.postDelayed(
-                         new Runnable() {
-                             @Override
-                             public void run() {
-
-
-                             }
-                         }, 2000); // 2000 milliseconds for 2-second delay
-
-
-                 // display correct answer in green text*/
-
-
-
-
-             /*}
-// Check if this is the users first attempt and if they still have attempts
-              if (AvailableAttempts < NumberOfButtons  && AvailableAttempts > 1)
-             {   int PointsAlotted  =  PointsPerQuestion - 10 * (NumberOfButtons-AvailableAttempts);
-
-
-
-                 handler.postDelayed(
-                         new Runnable() {
-                             @Override
-                             public void run() {
-
-
-                             }
-                         }, 2000); // 2000 milliseconds for 2-second delay
-
-                 /// Add to their total points
-                      AccumulatedPoints += PointsAlotted;
-                 // display correct answer in green text
-                 answerTextView.setText(R.string.PointsAllocated);
-                 answerTextView.setTextColor(
-                         getResources().getColor(R.color.correct_answer,
-                                 getContext().getTheme()));
-
-
-                 handler.postDelayed(
-                         new Runnable() {
-                             @Override
-                             public void run() {
-
-
-             }
-         }, 2000); // 2000 milliseconds for 2-second delay
-
-             }
-
-
-             if (AvailableAttempts  == 1  )
-
-                 {
-
-
-                     AvailableAttempts=NumberOfButtons;
-                     answerTextView.setText( " 0 POINTS  :( !!!");
-                     answerTextView.setTextColor(
-                             getResources().getColor(R.color.correct_answer,
-                                     getContext().getTheme()));
-
-                     handler.postDelayed(
-                             new Runnable() {
-                                 @Override
-                                 public void run() {
-
-
-
-
-                                 }
-                             }, 2000); // 2000 milliseconds for 2-second delay
-
-
-
-                 }
-
-
-
-
-
-
-
-
-
-
-                 // display correct answer in green text
-            answerTextView.setText(answer + "!");
-            answerTextView.setTextColor(
-               getResources().getColor(R.color.correct_answer,
-                  getContext().getTheme()));
-
-            disableButtons(); // disable all guess Buttons
-
-            // if the user has correctly identified FLAGS_IN_QUIZ flags
-            if (correctAnswers == FLAGS_IN_QUIZ) {
-
-                // display correct answer in green text
-                answerTextView.setText(answer + "!");
-                answerTextView.setTextColor(
-                        getResources().getColor(R.color.correct_answer,
-                                getContext().getTheme()));
-
-
-
-
-
-                    /*DialogFragment n = */
-               // DialogFragment to display quiz stats and start new quiz
-              /* DialogFragment quizResults =
-                  new DialogFragment() {
-                     // create an AlertDialog and return it
-                     @Override
-                     public Dialog onCreateDialog(Bundle bundle) {
-                        AlertDialog.Builder builder =
-                           new AlertDialog.Builder(getActivity());
-                        builder.setMessage(
-                           getString(R.string.results,
-                              totalGuesses,
-                              (1000 / (double) totalGuesses)));
-
-                        // "Reset Quiz" Button
-                        builder.setPositiveButton(R.string.reset_quiz,
-                           new DialogInterface.OnClickListener() {
-                              public void onClick(DialogInterface dialog,
-                                 int id) {
-                                 resetQuiz();
-                              }
-                           }
-                        );
-
-                        return builder.create(); // return the AlertDialog
-                     }
-                  };
-               // use FragmentManager to display the DialogFragment
-                answerTextView.setText(answer + "!");
-                answerTextView.setTextColor(
-                        getResources().getColor(R.color.correct_answer,
-                                getContext().getTheme()));
-
-                 DialogFragment quizResults = Dialog_Fragment.newInstance(1, totalGuesses);
-                 quizResults.setCancelable(false);
-               quizResults.show(getFragmentManager(), "restarting_quiz");
-
-                if ( CurrentPlayer <= NumberofPlayers )
-                {
-
-                    // Do not reset flags list
-                    SoftresetQuiz();
-
-                }
-                else {
-                    resetQuiz();
-                }
-            }*/
-
-              /*{ // answer is correct but quiz is not over
-               // load the next flag after a 2-second delay
-               handler.postDelayed(
-                  new Runnable() {
-                     @Override
-                     public void run() {
-                        animate(true); // animate the flag off the screen
-                     }
-                  }, 2000); // 2000 milliseconds for 2-second delay
-            }
-         }*/
-// #endofcomment
    // utility method that disables all answer Buttons
    private void disableButtons() {
       for (int row = 0; row < guessRows; row++) {

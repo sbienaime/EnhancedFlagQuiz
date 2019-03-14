@@ -11,13 +11,13 @@
       android:persistent="true"
       android:defaultValue="4" />
    <ListPreference
+       android:defaultValue="1"
        android:entries="@array/number_of_players"
        android:entryValues="@array/number_of_players"
        android:key="pref_numberOfPlayers"
-       android:title="@string/number_of_players"
-       android:summary="@string/multiplayer_message"
        android:persistent="true"
-       android:defaultValue="1" />
+       android:summary="@string/multiplayer_message"
+       android:title="@string/number_of_players" />
 
    <MultiSelectListPreference
       android:entries="@array/regions_list_for_settings"
