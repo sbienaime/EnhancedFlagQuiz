@@ -10,6 +10,7 @@
       android:summary="@string/number_of_choices_description"
       android:persistent="true"
       android:defaultValue="4" />
+
    <ListPreference
        android:defaultValue="1"
        android:entries="@array/number_of_players"

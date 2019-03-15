@@ -49,7 +49,7 @@ import org.w3c.dom.Text;
 public  class  MainActivityFragment extends Fragment{
    // String used when logging error messages
    private static final String TAG = "FlagQuiz Activity";
-
+    int result;
    private static  int FLAGS_IN_QUIZ = 10;
    private static  int NumberOfPlayers;
    private static List<String> fileNameList; // flag file names
@@ -409,7 +409,7 @@ public  class  MainActivityFragment extends Fragment{
 
     private OnClickListener guessButtonListener = new OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View v) {//#buttoncode
             Button guessButton = ((Button) v);
             String guess = guessButton.getText().toString();
             String answer = getCountryName(correctAnswer);
@@ -431,10 +431,15 @@ public  class  MainActivityFragment extends Fragment{
 
 // #123
                   if (AvailableAttempts==NumberOfButtons) {
-                      Intent i = new Intent(getContext(), BonusActivity.class);
-                      startActivityForResult(i, 0);
+                      Intent intent = new Intent(getContext(), BonusActivity.class);
 
+                    // int code://#last
+                      startActivityForResult(intent, 1);
+                      onActivityResult(1,1, intent);
 
+                      String hello ="pos";
+                      Log.i("PASSED BY INTENT",result+"");
+                      Log.i("STORED In Pref",hello);
                       // was used to keep quiz to 10 questions , most likely unecessary due to updates
                      //  ****correctAnswers--;
                       CorrectOnFirstTry++;
@@ -583,6 +588,20 @@ public  class  MainActivityFragment extends Fragment{
             }
         }
     };
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+
+            if (resultCode == Activity.RESULT_OK) {
+                 result = data.getIntExtra("pos1",100);
+                // do something with the result
+
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // some stuff that will happen if there's no result
+            }
+        }
+    }
 
 
    // utility method that disables all answer Buttons

@@ -98,7 +98,7 @@ public  class  BonusFragment extends Fragment{
         super.onCreateView(inflater, container, savedInstanceState);
         View view =
                 inflater.inflate(R.layout.fragment_bonus, container, false);
-
+        PreferenceManager.setDefaultValues(this.getActivity(), R.xml.scores_preferences, false);//#sharedpref
         fileNameList = new ArrayList<>();
         quizCountriesList = new ArrayList<>();
         random = new SecureRandom();
@@ -545,7 +545,7 @@ public  class  BonusFragment extends Fragment{
 
     private OnClickListener guessButtonListener = new OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View v) {//#buttoncode
             Button guessButton = ((Button) v);
             String guess = guessButton.getText().toString();
             String answer = getCountryName(correctAnswer);
@@ -563,10 +563,12 @@ public  class  BonusFragment extends Fragment{
                     answerTextView.setTextColor(
                             getResources().getColor(R.color.correct_answer,
                                     getContext().getTheme()));
-                // if the guess is correct
+                int position =100;
+                Intent intent  = new Intent(); //#intent
+                intent.putExtra("pos1", position);
+                getActivity().setResult(Activity.RESULT_OK, intent );
                 getActivity().finish();
-
-                }
+            }
             else { // answer was incorrect
 
 
@@ -610,6 +612,10 @@ public  class  BonusFragment extends Fragment{
 
 
 
+                int position =100;
+                Intent intent  = new Intent(); //#intent
+                intent.putExtra("pos1", position);
+                getActivity().setResult(Activity.RESULT_OK, intent );
 
 
                 getActivity().finish();                     } }

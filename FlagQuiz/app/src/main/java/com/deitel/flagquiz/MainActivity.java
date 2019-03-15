@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             PreferenceManager.getDefaultSharedPreferences(this));
          quizFragment.resetQuiz();
          preferencesChanged = false;
+
       }
    }
 
