@@ -350,7 +350,9 @@ public  class  MainActivityFragment extends Fragment{
 
    // parses the country flag file name and returns the country name
    private static String getCountryName(String name) {
-      return name.substring(name.indexOf('-') + 1).replace('_', ' ');
+      String  CountryAndCity = name.substring(name.indexOf('-') + 1).replace('_', ' ');
+      String  Country = CountryAndCity.substring(0,CountryAndCity.indexOf('-')).replace('_', ' ');
+      return Country ;
    }
 
    // animates the entire quizLinearLayout on or off screen
@@ -435,6 +437,8 @@ public  class  MainActivityFragment extends Fragment{
 
                     // int code://#last
                       startActivityForResult(intent, 1);
+                      String FlagForBonusQuestion=correctAnswer;
+                      intent.putExtra("CORRECTANSWER", FlagForBonusQuestion);
                       onActivityResult(1,1, intent);
 
                       String hello ="pos";

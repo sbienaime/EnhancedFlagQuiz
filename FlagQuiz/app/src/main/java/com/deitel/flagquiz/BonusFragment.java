@@ -49,7 +49,7 @@ import org.w3c.dom.Text;
 public  class  BonusFragment extends Fragment{
     // String used when logging error messages
     private static final String TAG = "FlagQuiz Activity";
-
+    String BonusQuestion;
     private static  int FLAGS_IN_QUIZ = 1;
     private static  int NumberOfPlayers;
     private static List<String> fileNameList; // flag file names
@@ -334,7 +334,7 @@ public  class  BonusFragment extends Fragment{
 
                 // get country name and set it as newGuessButton's text
                 String filename = fileNameList.get((row * 2) + column);
-                newGuessButton.setText(getCountryName(filename));
+                newGuessButton.setText(getCityName(filename));
             }
         }
 
@@ -342,7 +342,7 @@ public  class  BonusFragment extends Fragment{
         int row = random.nextInt(guessRows); // pick random row
         int column = random.nextInt(2); // pick random column
         LinearLayout randomRow = guessLinearLayouts[row]; // get the row
-        String countryName = getCountryName(correctAnswer);
+        String countryName = getCityName(correctAnswer);
         ((Button) randomRow.getChildAt(column)).setText(countryName);
     }
 
@@ -408,7 +408,7 @@ public  class  BonusFragment extends Fragment{
 
                 // get country name and set it as newGuessButton's text
                 String filename = fileNameList.get((row * 2) + column);
-                newGuessButton.setText(getCountryName(filename));
+                newGuessButton.setText(getCityName(filename));
             }
         }
 
@@ -416,7 +416,7 @@ public  class  BonusFragment extends Fragment{
         int row = random.nextInt(guessRows); // pick random row
         int column = random.nextInt(2); // pick random column
         LinearLayout randomRow = guessLinearLayouts[row]; // get the row
-        String countryName = getCountryName(correctAnswer);
+        String countryName = getCityName(correctAnswer);
         ((Button) randomRow.getChildAt(column)).setText(countryName);
     }
 
@@ -430,8 +430,8 @@ public  class  BonusFragment extends Fragment{
         answerTextView.setText(""); // clear answerTextView
 
         // display current question number
-        questionNumberTextView.setText(getString(
-                R.string.question, (correctAnswers + 1), FLAGS_IN_QUIZ));
+        questionNumberTextView.setText(
+                R.string.BonusQuestion);
 
         // extract the region from the next image's name
         String region = nextImage.substring(0, nextImage.indexOf('-'));
@@ -472,7 +472,7 @@ public  class  BonusFragment extends Fragment{
 
                 // get country name and set it as newGuessButton's text
                 String filename = fileNameList.get((row * 2) + column);
-                newGuessButton.setText(getCountryName(filename));
+                newGuessButton.setText(getCityName(filename));
             }
         }
 
@@ -480,13 +480,15 @@ public  class  BonusFragment extends Fragment{
         int row = random.nextInt(guessRows); // pick random row
         int column = random.nextInt(2); // pick random column
         LinearLayout randomRow = guessLinearLayouts[row]; // get the row
-        String countryName = getCountryName(correctAnswer);
+        String countryName = getCityName(correctAnswer);
         ((Button) randomRow.getChildAt(column)).setText(countryName);
     }
 
     // parses the country flag file name and returns the country name
-    private static String getCountryName(String name) {
-        return name.substring(name.indexOf('-') + 1).replace('_', ' ');
+    private static String getCityName(String name) {
+        String CountryAndCity= name.substring(name.indexOf('-') + 1).replace('_', ' ');
+        String City =CountryAndCity.substring(name.indexOf('-')+1).replace('_', ' ');
+        return City;
     }
 
     // animates the entire quizLinearLayout on or off screen
@@ -531,6 +533,25 @@ public  class  BonusFragment extends Fragment{
         animator.start(); // start the animation
     }
 
+//##lastPlace
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+
+            if (resultCode == Activity.RESULT_OK) {
+                BonusQuestion = data.getIntExtra("CORRECTANSER","Technical");
+                // do something with the result
+
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // some stuff that will happen if there's no result
+            }
+        }
+    }
+
+
+
+
+
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -548,7 +569,7 @@ public  class  BonusFragment extends Fragment{
         public void onClick(View v) {//#buttoncode
             Button guessButton = ((Button) v);
             String guess = guessButton.getText().toString();
-            String answer = getCountryName(correctAnswer);
+            String answer = getCityName(correctAnswer);
             ++totalGuesses; // increment number of guesses the user has made
 
             PointsPerQuestion=NumberOfButtons*10;
