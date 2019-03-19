@@ -49,13 +49,14 @@ import org.w3c.dom.Text;
 public  class  BonusFragment extends Fragment{
     // String used when logging error messages
     private static final String TAG = "FlagQuiz Activity";
+
     String BonusQuestion;
     private static  int FLAGS_IN_QUIZ = 1;
     private static  int NumberOfPlayers;
     private static List<String> fileNameList; // flag file names
     private static List<String> quizCountriesList; // countries in current quiz
     private static Set<String> regionsSet; // world regions in current quiz
-    private static String correctAnswer; // correct country for the current flag
+    private static String correctAnswer ; // correct country for the current flag
     public  static int totalGuesses; // number of guesses made
     private static int correctAnswers; // number of correct guesses
     private static int guessRows; // number of rows displaying guess Buttons
@@ -99,6 +100,10 @@ public  class  BonusFragment extends Fragment{
         View view =
                 inflater.inflate(R.layout.fragment_bonus, container, false);
         PreferenceManager.setDefaultValues(this.getActivity(), R.xml.scores_preferences, false);//#sharedpref
+
+        //onActivityResult(1,1, intent);
+        Intent thisintent =  getActivity().getIntent();
+        correctAnswer= thisintent.getStringExtra("CORRECTANSWER");
         fileNameList = new ArrayList<>();
         quizCountriesList = new ArrayList<>();
         random = new SecureRandom();
@@ -268,7 +273,7 @@ public  class  BonusFragment extends Fragment{
         int numberOfFlags = fileNameList.size();
 
         // add FLAGS_IN_QUIZ random file names to the quizCountriesList
-        while (flagCounter <= FLAGS_IN_QUIZ) {
+        while (flagCounter < FLAGS_IN_QUIZ) {
             int randomIndex = random.nextInt(numberOfFlags);
 
             // get the random file name
@@ -280,7 +285,8 @@ public  class  BonusFragment extends Fragment{
                 ++flagCounter;
             }
         }
-
+        fileNameList.add(MainActivityFragment.correctAnswer);
+        quizCountriesList.add(MainActivityFragment.correctAnswer);
         loadNextFlag(); // start the quiz by loading the first flag
     }
 
@@ -288,8 +294,8 @@ public  class  BonusFragment extends Fragment{
     private  void loadBonus() {
         AvailableAttempts=guessRows*2;
         // get file name of the next flag and remove it from the list
-        String nextImage = quizCountriesList.remove(0);
-        correctAnswer = nextImage; // update the correct answer
+        String nextImage ;
+        nextImage= MainActivityFragment.correctAnswer; // update the correct answer
         answerTextView.setText(""); // clear answerTextView
 
         // display current question number
@@ -425,10 +431,13 @@ public  class  BonusFragment extends Fragment{
     private  void loadNextFlag() {
         AvailableAttempts=guessRows*2;
         // get file name of the next flag and remove it from the list
-        String nextImage = quizCountriesList.remove(0);
-        correctAnswer = nextImage; // update the correct answer
-        answerTextView.setText(""); // clear answerTextView
 
+
+
+         // update the correct answer
+        answerTextView.setText(""); // clear answerTextView
+        String nextImage ;
+        nextImage= MainActivityFragment.correctAnswer; // update the correct answer
         // display current question number
         questionNumberTextView.setText(
                 R.string.BonusQuestion);
@@ -442,7 +451,7 @@ public  class  BonusFragment extends Fragment{
         // get an InputStream to the asset representing the next flag
         // and try to use the InputStream
         try (InputStream stream =
-                     assets.open(region + "/" + nextImage + ".png")) {
+                     assets.open(region + "/" + MainActivityFragment.correctAnswer + ".png")) {
             // load the asset as a Drawable and display on the flagImageView
             Drawable flag = Drawable.createFromStream(stream, nextImage);
             flagImageView.setImageDrawable(flag);
@@ -456,7 +465,7 @@ public  class  BonusFragment extends Fragment{
         Collections.shuffle(fileNameList); // shuffle file names
 
         // put the correct answer at the end of fileNameList
-        int correct = fileNameList.indexOf(correctAnswer);
+        int correct = fileNameList.indexOf(MainActivityFragment.correctAnswer);
         fileNameList.add(fileNameList.remove(correct));
 
         // add 2, 4, 6 or 8 guess Buttons based on the value of guessRows
@@ -480,14 +489,19 @@ public  class  BonusFragment extends Fragment{
         int row = random.nextInt(guessRows); // pick random row
         int column = random.nextInt(2); // pick random column
         LinearLayout randomRow = guessLinearLayouts[row]; // get the row
-        String countryName = getCityName(correctAnswer);
+        String countryName = getCityName(MainActivityFragment.correctAnswer);
         ((Button) randomRow.getChildAt(column)).setText(countryName);
     }
 
     // parses the country flag file name and returns the country name
     private static String getCityName(String name) {
+        Log.i("NAME",name);
         String CountryAndCity= name.substring(name.indexOf('-') + 1).replace('_', ' ');
-        String City =CountryAndCity.substring(name.indexOf('-')+1).replace('_', ' ');
+        Log.i("CountryAndCity", CountryAndCity);
+
+        String City =CountryAndCity.substring(CountryAndCity.indexOf('-')+1).replace('_', ' ');
+        Log.i("City", City);
+
         return City;
     }
 
@@ -535,11 +549,12 @@ public  class  BonusFragment extends Fragment{
 
 //##lastPlace
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        BonusQuestion = data.getStringExtra("CORRECTANSWER");
+        Log.i("ANSWERPASSED", BonusQuestion);
         if (requestCode == 1) {
 
             if (resultCode == Activity.RESULT_OK) {
-                BonusQuestion = data.getIntExtra("CORRECTANSER","Technical");
+
                 // do something with the result
 
             } else if (resultCode == Activity.RESULT_CANCELED) {
@@ -569,7 +584,7 @@ public  class  BonusFragment extends Fragment{
         public void onClick(View v) {//#buttoncode
             Button guessButton = ((Button) v);
             String guess = guessButton.getText().toString();
-            String answer = getCityName(correctAnswer);
+            String answer = getCityName(MainActivityFragment.correctAnswer);
             ++totalGuesses; // increment number of guesses the user has made
 
             PointsPerQuestion=NumberOfButtons*10;
@@ -585,7 +600,8 @@ public  class  BonusFragment extends Fragment{
                             getResources().getColor(R.color.correct_answer,
                                     getContext().getTheme()));
                 int position =100;
-                Intent intent  = new Intent(); //#intent
+                //#intent
+                Intent intent  = new Intent();
                 intent.putExtra("pos1", position);
                 getActivity().setResult(Activity.RESULT_OK, intent );
                 getActivity().finish();
@@ -631,10 +647,10 @@ public  class  BonusFragment extends Fragment{
                                             }
                                         }, 500); // 2000 milliseconds for 2-second dela
 
-
-
+                Intent intent  = new Intent();
                 int position =100;
-                Intent intent  = new Intent(); //#intent
+              //  Intent intent  = new Intent(); //#intent
+
                 intent.putExtra("pos1", position);
                 getActivity().setResult(Activity.RESULT_OK, intent );
 

@@ -55,7 +55,7 @@ public  class  MainActivityFragment extends Fragment{
    private static List<String> fileNameList; // flag file names
    private static List<String> quizCountriesList; // countries in current quiz
    private static Set<String> regionsSet; // world regions in current quiz
-   private static String correctAnswer; // correct country for the current flag
+   public static String correctAnswer; // correct country for the current flag
    public  static int totalGuesses; // number of guesses made
    private static int correctAnswers; // number of correct guesses
    private static int guessRows; // number of rows displaying guess Buttons
