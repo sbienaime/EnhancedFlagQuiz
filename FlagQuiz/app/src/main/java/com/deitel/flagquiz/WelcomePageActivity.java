@@ -25,8 +25,15 @@ public class WelcomePageActivity extends AppCompatActivity {
 
 
 
-        Intent preferencesIntent = new Intent(this, MainActivity.class);
-        startActivity(preferencesIntent);
+
+
+
+        Intent Intent = new Intent(this, MultiplayerActivity.class);
+        startActivity(Intent);
+
+
+
+
 
 
 

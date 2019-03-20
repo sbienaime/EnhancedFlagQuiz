@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
       setSupportActionBar(toolbar);
 
+      // passes usernames to Main activity
+       MultiplayerActivity.setUserNames();
        // set default values in the app's SharedPreferences
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
       if (phoneDevice)
          setRequestedOrientation(
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
+
    }
 
    // called after onCreate completes execution
@@ -74,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             getSupportFragmentManager().findFragmentById(
                R.id.quizFragment);
          quizFragment.updateGuessRows(
+                 PreferenceManager.getDefaultSharedPreferences(this));
+         quizFragment.updateNumberOfPlayers(
             PreferenceManager.getDefaultSharedPreferences(this));
          quizFragment.updateRegions(
             PreferenceManager.getDefaultSharedPreferences(this));

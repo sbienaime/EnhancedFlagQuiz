@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="0dp"
     android:gravity="center_horizontal"
     tools:context=".WelcomePageActivity">
 
@@ -29,22 +30,22 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="320dp"
-        android:layout_marginEnd="163dp"
+        android:layout_marginStart="81dp"
+        android:layout_marginTop="335dp"
+        android:layout_marginEnd="80dp"
         android:onClick="SinglePlayer"
-        android:text="Single Player" />
+        android:text="Single Player/Start" />
 
     <Button
         android:id="@+id/button10"
-        android:layout_width="138dp"
-        android:layout_height="41dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="395dp"
-        android:layout_marginEnd="133dp"
+        android:layout_marginStart="62dp"
+        android:layout_marginTop="404dp"
+        android:layout_marginEnd="59dp"
         android:onClick="Multiplayer"
         android:text="Multiplayer" />
 

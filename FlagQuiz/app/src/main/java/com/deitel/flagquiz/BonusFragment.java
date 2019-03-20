@@ -218,6 +218,7 @@ public  class  BonusFragment extends Fragment{
         correctAnswers = 0; // reset the number of correct answers made
         totalGuesses = 0; // reset the total number of guesses the user made
         quizCountriesList.clear(); // clear prior list of quiz countries
+        AccumulatedPoints=0;
 
         int flagCounter = 1;
         int numberOfFlags = fileNameList.size();
@@ -268,6 +269,7 @@ public  class  BonusFragment extends Fragment{
         correctAnswers = 0; // reset the number of correct answers made
         totalGuesses = 0; // reset the total number of guesses the user made
         quizCountriesList.clear(); // clear prior list of quiz countries
+
 
         int flagCounter = 1;
         int numberOfFlags = fileNameList.size();
@@ -633,9 +635,9 @@ public  class  BonusFragment extends Fragment{
                                             public void run() {
 
                                                 answerTextView.setText(" Sorry :( ");
-                                                answerTextView.setTextColor(
-                                                        getResources().getColor(R.color.incorrect_answer,
-                                                                getContext().getTheme()));
+                                                //answerTextView.setTextColor(
+                                                  // getActivity().getResources().getColor(R.color.incorrect_answer,
+                                                                //getActivity().getTheme()));
 
                                                 answerTextView.setText(" ");
                                             }

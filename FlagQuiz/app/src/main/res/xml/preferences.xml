@@ -29,4 +29,9 @@
       android:persistent="true"
       android:defaultValue="@array/regions_list" />
 
+
+
+
+
+
 </PreferenceScreen>

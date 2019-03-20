@@ -1,9 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LeaderBoardActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="49dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="118dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="113dp"
+        android:gravity="center"
+        android:text="TOP FIVE SCORES"
+        android:textColor="#ff4598"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="129dp"
+        tools:layout_editor_absoluteY="73dp" />
+
+    <TextView
+        android:id="@+id/h1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="97dp"
+        android:layout_marginTop="199dp"
+        android:layout_marginEnd="100dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Top Score"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="267dp"
+        android:layout_marginEnd="99dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Top Score"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/editText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="343dp"
+        android:layout_marginEnd="95dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Top Score"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/editText4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="413dp"
+        android:layout_marginEnd="91dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Top Score"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/editText5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="490dp"
+        android:layout_marginEnd="92dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Top Score"
+        android:inputType="textPersonName" />
+</RelativeLayout>

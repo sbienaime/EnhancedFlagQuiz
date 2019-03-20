@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -47,6 +48,12 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import org.w3c.dom.Text;
 
 public  class  MainActivityFragment extends Fragment{
+
+    public static String Player1;
+    public static String Player2;
+    public static String Player3;
+    public static String Player4;
+    public static String Player5;
    // String used when logging error messages
    private static final String TAG = "FlagQuiz Activity";
     int result;
@@ -65,14 +72,17 @@ public  class  MainActivityFragment extends Fragment{
     public static Context context;
     static int deduction=0;
      static int AvailableAttempts;
-      static int NumberOfButtons;
+    public static int[] PlayerScores = new int[15];
+      public static int i =0; // stops the quiz when i is = to number of players
+      static int NumberOfButtons;//#number
       static int PointsPerQuestion;
       public static int AccumulatedPoints;
     static int CorrectOnFirstTry;
-     public static TextView DisplayScore;//#cp1
+    public static ArrayList<Players>PlayersList =new ArrayList();
+    public static TextView DisplayScore;//#cp1
     TextView IncreaseFirstTry;
     int CurrentPlayer;
-    int NumberofPlayers;
+     //public static int NumberofPlayers;
     String[] PlayerNames = new String[10];
     //#lp
     private static LinearLayout quizLinearLayout; // layout that contains the quiz
@@ -86,9 +96,28 @@ public  class  MainActivityFragment extends Fragment{
     }
 
     public static void increaseScore() {
+
+
 //#lp2
 
 
+
+    }
+
+
+
+    public class Players {
+
+        public String username;
+        public int Score;
+
+        public Players(String username, int Score) {
+
+            this.username = username;
+            this.Score = Score;
+
+
+        }
 
     }
    // configures the MainActivityFragment when its View is created
@@ -153,9 +182,9 @@ public  class  MainActivityFragment extends Fragment{
 
 
    public void updateNumberOfPlayers(SharedPreferences sharedPreferences) {
-      String choices =
+      String players =
               sharedPreferences.getString(MainActivity.PLAYERS, null);
-      NumberOfPlayers = Integer.parseInt(choices) / 2;
+      NumberOfPlayers = Integer.parseInt(players);
    }
    // update guessRows based on value in SharedPreferences
    public void updateGuessRows(SharedPreferences sharedPreferences) {
@@ -214,6 +243,12 @@ public  class  MainActivityFragment extends Fragment{
         correctAnswers = 0; // reset the number of correct answers made
         totalGuesses = 0; // reset the total number of guesses the user made
         quizCountriesList.clear(); // clear prior list of quiz countries
+        AccumulatedPoints=0;
+        DisplayScore.setText(AccumulatedPoints+"");
+        CorrectOnFirstTry=0;
+        //public static TextView DisplayScore;//#cp1
+        //TextView IncreaseFirstTry;
+        //int CurrentPlayer;
 
         int flagCounter = 1;
         int numberOfFlags = fileNameList.size();
@@ -240,7 +275,7 @@ public  class  MainActivityFragment extends Fragment{
    // set up and start the next quiz
    public void resetQuiz() {
         AccumulatedPoints=0;
-        CorrectOnFirstTry=0;
+        CorrectOnFirstTry=0;//#shared pref
        DisplayScore.setText("0");
        IncreaseFirstTry.setText("0");
       // use AssetManager to get image file names for enabled regions
@@ -416,9 +451,10 @@ public  class  MainActivityFragment extends Fragment{
             String guess = guessButton.getText().toString();
             String answer = getCountryName(correctAnswer);
             ++totalGuesses; // increment number of guesses the user has made
-
+            Log.i("NumberOfPlayers", NumberOfPlayers+"");
             PointsPerQuestion=NumberOfButtons*10;
             int pointsGiven;
+            Log.i("Player1", Player1);
             if (guess.equals(answer)) { // if the guess is correct
                 ++correctAnswers; // increment the number of correct answers
 
@@ -521,23 +557,77 @@ public  class  MainActivityFragment extends Fragment{
 
                 // if the user has correctly identified FLAGS_IN_QUIZ flags
                 if (correctAnswers == FLAGS_IN_QUIZ) {
-                    CorrectOnFirstTry=0;
-                    // DialogFragment to display quiz stats and start new quiz
-
-                   //#lastchange
-                    DialogFragment quizResults = Dialog_Fragment.newInstance(1, totalGuesses);
-                    quizResults.setCancelable(false);
-                    quizResults.show(getFragmentManager(), "restarting_quiz");
-                    handler.postDelayed(
-                            new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    resetQuiz();//// create method that delays reset
-                                }
-                            }, 5000); // 2000 milliseconds for 2-second delay
 
 
+                    if ( i == NumberOfPlayers) {
+
+
+
+
+                        Collections.sort(PlayersList, new Comparator<Players>() {//#compar
+                            @Override
+                            //Descending Sort
+                            public int compare(Players o1, Players o2) {
+                                return Integer.valueOf(o2.Score).compareTo(o1.Score);
+                            }
+                        });
+                           for (int c =0; c < 1 ; c++){
+
+                           Log.i("SCORE",""+PlayersList.get(c).Score );
+                               Log.i("User",""+PlayersList.get(c).username );
+
+
+                           }
+
+                        CorrectOnFirstTry = 0;
+                        // DialogFragment to display quiz stats and start new quiz
+
+                        //#lastchange
+                        DialogFragment quizResults = Dialog_Fragment.newInstance(1, totalGuesses);
+                        quizResults.setCancelable(false);
+                        quizResults.show(getFragmentManager(), "restarting_quiz");
+                        handler.postDelayed(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        resetQuiz();//// create method that delays reset
+                                    }
+                                }, 5000); // 2000 milliseconds for 2-second delay
+
+                        Log.i("Won", "Player X won ");
+
+                        Intent intent = new Intent(getContext(), LeaderBoardActivity.class);
+                        startActivity(intent);
+
+                    }
+
+                    else {
+
+                        i++;
+                        switch (i){
+
+                            case 1:  PlayerScores[i]= AccumulatedPoints;
+                                PlayersList.add(new Players(Player1,  PlayerScores[i]));
+                                break;
+                                case 2: PlayerScores[i]=AccumulatedPoints ;
+                                PlayersList.add(new Players(Player2,  PlayerScores[i]));
+                                break;
+                             case 3: PlayerScores[i] = AccumulatedPoints;
+                                 PlayersList.add(new Players(Player3,  PlayerScores[i]));
+                                break;
+                            case 4:  PlayerScores[i] = AccumulatedPoints;
+                                PlayersList.add(new Players(Player4,  PlayerScores[i]));
+                                break;
+                            case 5:  PlayerScores[i] = AccumulatedPoints;
+                                PlayersList.add(new Players(Player1,  PlayerScores[i]));
+                                break;
+
+                        }
+                        // keeps track of how many players have played
+                        SoftresetQuiz();
+
+                        }
 
                 }
                 else { // answer is correct but quiz is not over

@@ -2,9 +2,11 @@
 // Activity to display SettingsActivityFragment on a phone
 package com.deitel.flagquiz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 public class SettingsActivity extends AppCompatActivity {
    // inflates the GUI, displays Toolbar and adds "up" button
@@ -16,6 +18,26 @@ public class SettingsActivity extends AppCompatActivity {
       setSupportActionBar(toolbar);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
    }
+
+
+   public void goToPlayerInfo(View buttonView){
+
+
+
+      Intent Intent = new Intent(this, MultiplayerActivity.class);
+      startActivity(Intent);
+
+
+
+
+
+   }
+
+
+
+
+
+
 }
 
 /*************************************************************************
