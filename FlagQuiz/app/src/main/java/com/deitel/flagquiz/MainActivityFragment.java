@@ -50,7 +50,7 @@ public  class  MainActivityFragment extends Fragment{
    // String used when logging error messages
    private static final String TAG = "FlagQuiz Activity";
     int result;
-   private static  int FLAGS_IN_QUIZ = 10;
+   private static  int FLAGS_IN_QUIZ = 5;
    private static  int NumberOfPlayers;
    private static List<String> fileNameList; // flag file names
    private static List<String> quizCountriesList; // countries in current quiz
@@ -67,9 +67,9 @@ public  class  MainActivityFragment extends Fragment{
      static int AvailableAttempts;
       static int NumberOfButtons;
       static int PointsPerQuestion;
-     static int AccumulatedPoints;
+      public static int AccumulatedPoints;
     static int CorrectOnFirstTry;
-    TextView DisplayScore;//#cp1
+     public static TextView DisplayScore;//#cp1
     TextView IncreaseFirstTry;
     int CurrentPlayer;
     int NumberofPlayers;
@@ -437,8 +437,7 @@ public  class  MainActivityFragment extends Fragment{
 
                     // int code://#last
                       startActivityForResult(intent, 1);
-                      String FlagForBonusQuestion=correctAnswer;
-                      intent.putExtra("CORRECTANSWER", FlagForBonusQuestion);
+
                       onActivityResult(1,1, intent);
 
                       String hello ="pos";

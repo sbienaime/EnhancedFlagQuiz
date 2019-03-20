@@ -69,9 +69,9 @@ public  class  BonusFragment extends Fragment{
     static int NumberOfButtons;
     static int PointsPerQuestion;
     static int AccumulatedPoints;
-    static int CorrectOnFirstTry;
-    TextView DisplayScore;//#cp1
-    TextView IncreaseFirstTry;
+   // static int CorrectOnFirstTry;
+   // TextView DisplayScore;//#cp1
+   // TextView IncreaseFirstTry;
     int CurrentPlayer;
     int NumberofPlayers;
     String[] PlayerNames = new String[10];
@@ -108,8 +108,8 @@ public  class  BonusFragment extends Fragment{
         quizCountriesList = new ArrayList<>();
         random = new SecureRandom();
         handler = new Handler();
-        IncreaseFirstTry =  (TextView) view.findViewById(R.id.FirstAttemptsDisplayer);
-        DisplayScore =  (TextView) view.findViewById(R.id.ScoreDisplayer);
+       // IncreaseFirstTry =  (TextView) view.findViewById(R.id.FirstAttemptsDisplayer);
+        //DisplayScore =  (TextView) view.findViewById(R.id.ScoreDisplayer);
         // load the shake animation that's used for incorrect answers
         shakeAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.incorrect_shake);
@@ -243,10 +243,10 @@ public  class  BonusFragment extends Fragment{
 
     // set up and start the next quiz
     public void resetQuiz() {
-        AccumulatedPoints=0;
-        CorrectOnFirstTry=0;
-        DisplayScore.setText("0");
-        IncreaseFirstTry.setText("0");
+       // AccumulatedPoints=0;
+      //  CorrectOnFirstTry=0;
+        //DisplayScore.setText("0");
+        //IncreaseFirstTry.setText("0");
         // use AssetManager to get image file names for enabled regions
         AssetManager assets = getActivity().getAssets();
         fileNameList.clear(); // empty list of image file names
@@ -595,15 +595,17 @@ public  class  BonusFragment extends Fragment{
 
                     // display correct answer in green text
                     answerTextView.setText(" 100 Points Extra ");
-                    DisplayScore.setText(AccumulatedPoints+"");
-                    answerTextView.setTextColor(
-                            getResources().getColor(R.color.correct_answer,
-                                    getContext().getTheme()));
+                    //DisplayScore.setText(AccumulatedPoints+"");
+                    //answerTextView.setTextColor(
+                            //getResources().getColor(R.color.correct_answer,
+                                 //   getContext().getTheme()));
                 int position =100;
                 //#intent
                 Intent intent  = new Intent();
-                intent.putExtra("pos1", position);
-                getActivity().setResult(Activity.RESULT_OK, intent );
+               // intent.putExtra("pos1", position);
+                //getActivity().setResult(Activity.RESULT_OK, intent );
+                MainActivityFragment.AccumulatedPoints =  MainActivityFragment.AccumulatedPoints +100;
+               MainActivityFragment.DisplayScore.setText(MainActivityFragment.AccumulatedPoints+" ");
                 getActivity().finish();
             }
             else { // answer was incorrect
@@ -625,15 +627,7 @@ public  class  BonusFragment extends Fragment{
                       //  Intent myIntent = new Intent(getContext(), MainActivity.class);
                 //myIntent.putExtra("key", 1); //Optional parameters
                // startActivity(myIntent);
-
-
-
-
-
-
-
-
-                                handler.postDelayed(
+                handler.postDelayed(
                                         new Runnable() {
                                             @Override
                                             public void run() {
@@ -648,13 +642,6 @@ public  class  BonusFragment extends Fragment{
                                         }, 500); // 2000 milliseconds for 2-second dela
 
                 Intent intent  = new Intent();
-                int position =100;
-              //  Intent intent  = new Intent(); //#intent
-
-                intent.putExtra("pos1", position);
-                getActivity().setResult(Activity.RESULT_OK, intent );
-
-
                 getActivity().finish();                     } }
     };
 

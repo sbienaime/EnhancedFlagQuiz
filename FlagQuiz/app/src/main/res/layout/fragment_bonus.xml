@@ -27,28 +27,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="300">
+        
 
-
-        <TextView
-            android:id="@+id/ScoreView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="70"
-            android:text="Score" />
-
-        <TextView
-            android:id="@+id/ScoreDisplayer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="230"
-            android:hint="0 " />
 
     </LinearLayout>
 
@@ -64,26 +44,6 @@
         android:weightSum="300"
         >
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="70"
-
-            android:text=" First Attempts" />
-
-        <TextView
-            android:id="@+id/FirstAttemptsDisplayer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_weight="230"
-            android:hint="0" />
 
     </LinearLayout>
 
@@ -113,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/guess_country"
+        android:text="Guess the City"
         android:id="@+id/guessCountryTextView"
         android:layout_gravity="center_horizontal"/>
 
