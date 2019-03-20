@@ -48,7 +48,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import org.w3c.dom.Text;
 
 public  class  MainActivityFragment extends Fragment{
-
+    public static SharedPreferences prefs;
     public static String Player1;
     public static String Player2;
     public static String Player3;
@@ -77,6 +77,7 @@ public  class  MainActivityFragment extends Fragment{
       static int NumberOfButtons;//#number
       static int PointsPerQuestion;
       public static int AccumulatedPoints;
+
     static int CorrectOnFirstTry;
     public static ArrayList<Players>PlayersList =new ArrayList();
     public static TextView DisplayScore;//#cp1
@@ -85,6 +86,7 @@ public  class  MainActivityFragment extends Fragment{
      //public static int NumberofPlayers;
     String[] PlayerNames = new String[10];
     //#lp
+    private AppPreferences _appPrefs;
     private static LinearLayout quizLinearLayout; // layout that contains the quiz
    private static TextView questionNumberTextView; // shows current question #
    private static  ImageView flagImageView; // displays a flag
@@ -128,7 +130,14 @@ public  class  MainActivityFragment extends Fragment{
       View view =
          inflater.inflate(R.layout.fragment_main, container, false);
 
-      fileNameList = new ArrayList<>();
+
+
+
+
+           _appPrefs = new AppPreferences(getContext());
+       _appPrefs.saveSmsBody("Test INPUT");
+
+           fileNameList = new ArrayList<>();
       quizCountriesList = new ArrayList<>();
       random = new SecureRandom();
       handler = new Handler();
@@ -558,9 +567,8 @@ public  class  MainActivityFragment extends Fragment{
                 // if the user has correctly identified FLAGS_IN_QUIZ flags
                 if (correctAnswers == FLAGS_IN_QUIZ) {
 
-
+                    String hello="hello";
                     if ( i == NumberOfPlayers) {
-
 
 
 
