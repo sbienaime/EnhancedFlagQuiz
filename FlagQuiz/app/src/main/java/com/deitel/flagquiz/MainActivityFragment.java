@@ -54,74 +54,78 @@ public  class  MainActivityFragment extends Fragment{
     public static String Player3;
     public static String Player4;
     public static String Player5;
-   // String used when logging error messages
-   private static final String TAG = "FlagQuiz Activity";
+    // String used when logging error messages
+    private static final String TAG = "FlagQuiz Activity";
     int result;
-   private static  int FLAGS_IN_QUIZ = 5;
-   private static  int NumberOfPlayers;
-   private static List<String> fileNameList; // flag file names
-   private static List<String> quizCountriesList; // countries in current quiz
-   private static Set<String> regionsSet; // world regions in current quiz
-   public static String correctAnswer; // correct country for the current flag
-   public  static int totalGuesses; // number of guesses made
-   private static int correctAnswers; // number of correct guesses
-   private static int guessRows; // number of rows displaying guess Buttons
-   private static SecureRandom random; // used to randomize the quiz
-   private static Handler handler; // used to delay loading next flag
-   private static Animation shakeAnimation; // animation for incorrect guess
+    private static  int FLAGS_IN_QUIZ = 2;
+    public static  int NumberOfPlayers;
+    private static List<String> fileNameList; // flag file names
+    private static List<String> quizCountriesList; // countries in current quiz
+    private static Set<String> regionsSet; // world regions in current quiz
+    public static String correctAnswer; // correct country for the current flag
+    public  static int totalGuesses; // number of guesses made
+    private static int correctAnswers; // number of correct guesses
+    private static int guessRows; // number of rows displaying guess Buttons
+    private static SecureRandom random; // used to randomize the quiz
+    private static Handler handler; // used to delay loading next flag
+    private static Animation shakeAnimation; // animation for incorrect guess
     public static Context context;
     static int deduction=0;
-     static int AvailableAttempts;
+    static int AvailableAttempts;
+    public static int Player1Score;
+    public static int Player2Score;
+    public static int Player3Score;
+    public static int Player4Score;
+    public static int Player5Score;
     public static int[] PlayerScores = new int[15];
-      public static int i =0; // stops the quiz when i is = to number of players
-      static int NumberOfButtons;//#number
-      static int PointsPerQuestion;
-      public static int AccumulatedPoints;
-
+    public static int j=1; // stops the quiz when i is = to number of players
+    static int NumberOfButtons;//#number
+    static int PointsPerQuestion;
+    public static int AccumulatedPoints;
     static int CorrectOnFirstTry;
     public static ArrayList<Players>PlayersList =new ArrayList();
     public static TextView DisplayScore;//#cp1
     TextView IncreaseFirstTry;
     int CurrentPlayer;
-     //public static int NumberofPlayers;
+    //public static int NumberofPlayers;
     String[] PlayerNames = new String[10];
-    //#lp
     private AppPreferences _appPrefs;
     private static LinearLayout quizLinearLayout; // layout that contains the quiz
-   private static TextView questionNumberTextView; // shows current question #
-   private static  ImageView flagImageView; // displays a flag
-   private static LinearLayout[] guessLinearLayouts; // rows of answer Buttons
-   private static TextView answerTextView; // displays correct answer
+    private static TextView questionNumberTextView; // shows current question #
+    private static  ImageView flagImageView; // displays a flag
+    private static LinearLayout[] guessLinearLayouts; // rows of answer Buttons
+    private static TextView answerTextView; // displays correct answer
     boolean  set =false;
+
+
+
+
+
+
     public interface OnFragmentInteractionListener {
 
     }
 
     public static void increaseScore() {
 
-
-//#lp2
-
-
-
     }
 
 
 
     public class Players {
-
         public String username;
         public int Score;
-
         public Players(String username, int Score) {
-
-            this.username = username;
-            this.Score = Score;
-
-
-        }
+             this.username = username;
+             this.Score = Score; }
 
     }
+
+
+
+
+
+
    // configures the MainActivityFragment when its View is created
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -130,14 +134,9 @@ public  class  MainActivityFragment extends Fragment{
       View view =
          inflater.inflate(R.layout.fragment_main, container, false);
 
-
-
-
-
-           _appPrefs = new AppPreferences(getContext());
-       _appPrefs.saveSmsBody("Test INPUT");
-
-           fileNameList = new ArrayList<>();
+      //#preferences
+       _appPrefs = new AppPreferences(getContext());
+      fileNameList = new ArrayList<>();
       quizCountriesList = new ArrayList<>();
       random = new SecureRandom();
       handler = new Handler();
@@ -190,7 +189,7 @@ public  class  MainActivityFragment extends Fragment{
 
 
 
-   public void updateNumberOfPlayers(SharedPreferences sharedPreferences) {
+   public static  void updateNumberOfPlayers(SharedPreferences sharedPreferences) {
       String players =
               sharedPreferences.getString(MainActivity.PLAYERS, null);
       NumberOfPlayers = Integer.parseInt(players);
@@ -463,7 +462,7 @@ public  class  MainActivityFragment extends Fragment{
             Log.i("NumberOfPlayers", NumberOfPlayers+"");
             PointsPerQuestion=NumberOfButtons*10;
             int pointsGiven;
-            Log.i("Player1", Player1);
+       
             if (guess.equals(answer)) { // if the guess is correct
                 ++correctAnswers; // increment the number of correct answers
 
@@ -568,7 +567,7 @@ public  class  MainActivityFragment extends Fragment{
                 if (correctAnswers == FLAGS_IN_QUIZ) {
 
                     String hello="hello";
-                    if ( i == NumberOfPlayers) {
+                    if ( j == NumberOfPlayers) {
 
 
 
@@ -579,10 +578,9 @@ public  class  MainActivityFragment extends Fragment{
                                 return Integer.valueOf(o2.Score).compareTo(o1.Score);
                             }
                         });
-                           for (int c =0; c < 1 ; c++){
-
-                           Log.i("SCORE",""+PlayersList.get(c).Score );
-                               Log.i("User",""+PlayersList.get(c).username );
+                           for (int c= 1; c < NumberOfPlayers ; c++){
+                               //#_appPrefs
+                               _appPrefs.saveSmsBody("Test INPUT");
 
 
                            }
@@ -612,26 +610,34 @@ public  class  MainActivityFragment extends Fragment{
 
                     else {
 
-                        i++;
-                        switch (i){
 
-                            case 1:  PlayerScores[i]= AccumulatedPoints;
-                                PlayersList.add(new Players(Player1,  PlayerScores[i]));
+                        switch (j){
+
+                            case 0:  PlayerScores[j]= AccumulatedPoints;
+                                PlayersList.add(new Players(Player1,  PlayerScores[j]));
+                                Log.i("SwitchPoints", AccumulatedPoints+"");
                                 break;
-                                case 2: PlayerScores[i]=AccumulatedPoints ;
-                                PlayersList.add(new Players(Player2,  PlayerScores[i]));
+                                case 1: Player1Score=AccumulatedPoints ;
+                                PlayersList.add(new Players(Player2,  PlayerScores[j]));
+                                    Log.i("SwitchPoints", AccumulatedPoints+"");
                                 break;
-                             case 3: PlayerScores[i] = AccumulatedPoints;
-                                 PlayersList.add(new Players(Player3,  PlayerScores[i]));
+                             case 2: Player2Score = AccumulatedPoints;
+                                 PlayersList.add(new Players(Player3,  PlayerScores[j]));
+                                 Log.i("SwitchPoints", AccumulatedPoints+"");
                                 break;
-                            case 4:  PlayerScores[i] = AccumulatedPoints;
-                                PlayersList.add(new Players(Player4,  PlayerScores[i]));
+                            case 3:  Player3Score = AccumulatedPoints;
+                                PlayersList.add(new Players(Player4,  PlayerScores[j]));
+
+                                Log.i("SwitchPoints", AccumulatedPoints+"");
+
                                 break;
-                            case 5:  PlayerScores[i] = AccumulatedPoints;
-                                PlayersList.add(new Players(Player1,  PlayerScores[i]));
+                            case 4:  Player4Score = AccumulatedPoints;
+                                Log.i("SwitchPoints", AccumulatedPoints+"");
+                                PlayersList.add(new Players(Player1,  PlayerScores[j]));
                                 break;
 
                         }
+                        j++;
                         // keeps track of how many players have played
                         SoftresetQuiz();
 

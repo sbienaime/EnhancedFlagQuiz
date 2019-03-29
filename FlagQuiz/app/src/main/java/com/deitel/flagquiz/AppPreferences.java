@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceManager;
 public class AppPreferences {
 
+    public static final String Player_One_SCORE= "P1_S";
 
     public static final String KEY_PREFS_SMS_BODY = "sms_body";
     private static final String APP_SHARED_PREFS = AppPreferences.class.getSimpleName(); //  Name of the file -.xml
@@ -21,6 +22,32 @@ public class AppPreferences {
     public String getSmsBody() {
         return _sharedPrefs.getString(KEY_PREFS_SMS_BODY, "");
     }
+
+
+
+
+
+   /* public void  SaveScores( int  player , in){
+
+
+        switch
+        _prefsEditor.putString(KEY_PREFS_SMS_BODY, text);
+        _prefsEditor.commit();
+
+
+
+
+    }*/
+   public void updatetextfields( int Num_of_Fields){
+
+       _prefsEditor.putInt("Num_of_fields",Num_of_Fields);
+       _prefsEditor.commit();
+
+
+
+
+   }
+
 
     public void saveSmsBody(String text) {
         _prefsEditor.putString(KEY_PREFS_SMS_BODY, text);

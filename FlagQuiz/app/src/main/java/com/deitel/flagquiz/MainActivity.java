@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 
    }
 
+
    // called after onCreate completes execution
    @Override
    protected void onStart() {
@@ -106,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
          return false;
    }
 
+
+
+
+
    // displays the SettingsActivity when running on a phone
    @Override
    public boolean onOptionsItemSelected(MenuItem item) {
@@ -113,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
       startActivity(preferencesIntent);
       return super.onOptionsItemSelected(item);
    }
+
+   //public static AppPreferences getPref
 
    // listener for changes to the app's SharedPreferences
    private OnSharedPreferenceChangeListener preferencesChangeListener =
@@ -126,6 +133,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             MainActivityFragment quizFragment = (MainActivityFragment)
                getSupportFragmentManager().findFragmentById(
                   R.id.quizFragment);
+
+             if (key.equals(PLAYERS)){MainActivityFragment.updateNumberOfPlayers(sharedPreferences);
+            quizFragment.resetQuiz();
+             quizFragment.updateNumberOfPlayers(sharedPreferences);
+                  MultiplayerActivity.setPrefences(sharedPreferences);
+
+             }
 
             if (key.equals(CHOICES)) { // # of choices to display changed
                quizFragment.updateGuessRows(sharedPreferences);
