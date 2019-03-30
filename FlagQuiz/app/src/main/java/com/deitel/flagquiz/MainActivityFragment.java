@@ -84,7 +84,7 @@ public  class  MainActivityFragment extends Fragment{
     static int PointsPerQuestion;
     public static int AccumulatedPoints;
     static int CorrectOnFirstTry;
-    public static ArrayList<Players>PlayersList =new ArrayList();
+    private static ArrayList<Players>PlayersList =new ArrayList();
     public static TextView DisplayScore;//#cp1
     TextView IncreaseFirstTry;
     int CurrentPlayer;
@@ -114,12 +114,13 @@ public  class  MainActivityFragment extends Fragment{
 
 
 
-    public class Players {
+ private class Players {
         public String username;
-        public int Score;
-        public Players(String username, int Score) {
+        public int  Score;
+        public Players(String username, String Score) {
              this.username = username;
-             this.Score = Score; }
+             this.Score = Integer.parseInt(Score);
+        }
 
     }
 
@@ -608,6 +609,7 @@ public  class  MainActivityFragment extends Fragment{
                         Log.i("Won", "Player X won ");
 
                         Intent intent = new Intent(getContext(), LeaderBoardActivity.class);
+                        intent.putExtra("Number_of_players",NumberOfPlayers);
                         startActivity(intent);
 
                     }
@@ -615,32 +617,32 @@ public  class  MainActivityFragment extends Fragment{
                     else {
 
 
-                        switch (j){
+                      /*  switch (j){
 
                             case 0:  PlayerScores[j]= AccumulatedPoints;
-                                PlayersList.add(new Players(Player1,  PlayerScores[j]));
+                                PlayersList.add(new Players(Player1,  "TEST"));
                                 Log.i("SwitchPoints", AccumulatedPoints+"");
                                 break;
                                 case 1: Player1Score=AccumulatedPoints ;
-                                PlayersList.add(new Players(Player2,  PlayerScores[j]));
+                                PlayersList.add(new Players(Player2, "TEST"));
                                     Log.i("SwitchPoints", AccumulatedPoints+"");
                                 break;
                              case 2: Player2Score = AccumulatedPoints;
-                                 PlayersList.add(new Players(Player3,  PlayerScores[j]));
+                                 PlayersList.add(new Players(Player3, "TEST"));
                                  Log.i("SwitchPoints", AccumulatedPoints+"");
                                 break;
                             case 3:  Player3Score = AccumulatedPoints;
-                                PlayersList.add(new Players(Player4,  PlayerScores[j]));
+                                PlayersList.add(new Players(Player4,  "TEST"));
 
                                 Log.i("SwitchPoints", AccumulatedPoints+"");
 
                                 break;
                             case 4:  Player4Score = AccumulatedPoints;
                                 Log.i("SwitchPoints", AccumulatedPoints+"");
-                                PlayersList.add(new Players(Player1,  PlayerScores[j]));
+                                PlayersList.add(new Players(Player1,  "TEST"));
                                 break;
 
-                        }
+                        }*/
                         j++;
                         // keeps track of how many players have played
                         SoftresetQuiz();

@@ -41,6 +41,21 @@ public class AppPreferences {
 
     }
 
+
+
+
+
+    public class Players {
+        public String username;
+        public int  Score;
+        public Players(String username, String Score) {
+            this.username = username;
+            this.Score = Integer.parseInt(Score);
+        }
+
+    }
+
+
     public void StoreUsername( int User_Number,String username) {
         _prefsEditor.putString("user"+User_Number, username);
         _prefsEditor.commit();
@@ -48,8 +63,8 @@ public class AppPreferences {
 
     public String RetrieveUserName( int User_Number) {
 
-        return _sharedPrefs.getString("user"+User_Number, "Failed");
-
+        String username=_sharedPrefs.getString("user"+User_Number, "0");
+        return username;
     }
 
 
@@ -57,7 +72,8 @@ public class AppPreferences {
 
 
     public String RetrieveScore(int Score_Number) {
-        return _sharedPrefs.getString("score"+Score_Number, "Failed");
+        String score=_sharedPrefs.getString("score"+Score_Number, "100");
+      return score;
     }
 
 
