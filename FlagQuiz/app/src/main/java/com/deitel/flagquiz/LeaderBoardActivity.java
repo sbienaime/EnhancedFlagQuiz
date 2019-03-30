@@ -47,6 +47,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
        //
       _appPrefs = new AppPreferences(this);
+      //Code for resetting shared Preferences
         /*for (int i=0 ; i <10; i++){
             _appPrefs.StoreUsername(i, null);
             _appPrefs.StoreScore(i, null);
@@ -57,7 +58,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
            String Score=_appPrefs.RetrieveScore(i);
 
            PlayersList.add(new Players(Username,Score));
-
+           Log.i("BEFORESORT",PlayersList.get(i).toString());
 
         }
 
@@ -74,7 +75,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
             _appPrefs.StoreScore(i,PlayersList.get(i).GetScore()+"");
             _appPrefs.StoreUsername(i,PlayersList.get(i).GetUserName()+"");
-
+            Log.i("AFTERSORT",PlayersList.get(i).toString());
         }
 
 
@@ -86,7 +87,7 @@ public class LeaderBoardActivity extends AppCompatActivity {
         Topscore3 = (TextView)findViewById(R.id.h3);
         Topscore4 = (TextView)findViewById(R.id.h4);
         Topscore5 = (TextView)findViewById(R.id.h5);
-        Topscore5.setVisibility(View.GONE);
+
 
 
 
@@ -109,18 +110,21 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
 
         if ( _appPrefs.RetrieveScore(0)!=null) {
-            Topscore.setText(_appPrefs.RetrieveUserName(0) + " " +_appPrefs.RetrieveScore(0));
-        }
+            Topscore.setText(_appPrefs.RetrieveUserName(0) + " " +_appPrefs.RetrieveScore(0)); }
 
         if ( _appPrefs.RetrieveScore(1)!=null) {
-        Topscore2.setText(_appPrefs.RetrieveUserName(1)+" " +_appPrefs.RetrieveScore(1));}
-       /* if (MainActivityFragment.Player2Score!=0) {
-        Topscore2.setText(MainActivityFragment.Player2+" " + score1+" ");}
+             Topscore2.setText(_appPrefs.RetrieveUserName(1)+" " +_appPrefs.RetrieveScore(1));}
 
-        if (MainActivityFragment.PlayerScores[3]!=0) {
-        Topscore3.setText(MainActivityFragment.Player3+" " + score1+" ");}
-        if (MainActivityFragment.PlayerScores[4]!=0) {
-        Topscore5.setText(MainActivityFragment.Player4+" " + score1+" ");}*/
+        if ( _appPrefs.RetrieveScore(2)!=null) {
+            Topscore3.setText(_appPrefs.RetrieveUserName(2)+" " +_appPrefs.RetrieveScore(2));}
+
+        if ( _appPrefs.RetrieveScore(3)!=null) {
+            Topscore4.setText(_appPrefs.RetrieveUserName(3)+" " +_appPrefs.RetrieveScore(3));}
+
+        if ( _appPrefs.RetrieveScore(4)!=null) {
+            Topscore5.setText(_appPrefs.RetrieveUserName(4)+" " +_appPrefs.RetrieveScore(4));}
+
+
 
     }
 
@@ -137,12 +141,18 @@ public class LeaderBoardActivity extends AppCompatActivity {
             this.Score = Integer.parseInt(Score);
         }
 
+        public String toString(){
 
+
+         String Output = username+" "+Score+" ";
+         return Output;
+
+        }
 
         public String GetUserName()
         {
 
-         String Output=username;
+         String Output=this.username;
          return Output;
 
         }

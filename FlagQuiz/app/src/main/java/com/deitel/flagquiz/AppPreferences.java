@@ -63,7 +63,7 @@ public class AppPreferences {
 
     public String RetrieveUserName( int User_Number) {
 
-        String username=_sharedPrefs.getString("user"+User_Number, "0");
+        String username=_sharedPrefs.getString("user"+User_Number, "Unknown");
         return username;
     }
 
@@ -72,7 +72,7 @@ public class AppPreferences {
 
 
     public String RetrieveScore(int Score_Number) {
-        String score=_sharedPrefs.getString("score"+Score_Number, "100");
+        String score=_sharedPrefs.getString("score"+Score_Number, "0");
       return score;
     }
 

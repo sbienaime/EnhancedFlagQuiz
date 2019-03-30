@@ -192,36 +192,37 @@ public class MultiplayerActivity extends AppCompatActivity {
     }
 
     public void play(View buttonView){
+        Log.i("NUMBEROFPLAYERSMULTI", NumberOfPlayers1+" ");
         //Stores UserNames in SharedPreferences
         switch(NumberOfPlayers1) {
 
             case 1:
-                _appPrefs.StoreUsername(0,Username1.getText().toString());
+                _appPrefs.StoreUsername(5,Username1.getText().toString());
                 break;
             case 2:
-                _appPrefs.StoreUsername(0,Username1.getText().toString());
-                _appPrefs.StoreUsername(1,Username2.getText().toString());
+                _appPrefs.StoreUsername(5,Username1.getText().toString());
+                _appPrefs.StoreUsername(6,Username2.getText().toString());
                 break;
             case 3:
-                _appPrefs.StoreUsername(0,Username1.getText().toString());
-                _appPrefs.StoreUsername(1,Username2.getText().toString());
-                _appPrefs.StoreUsername(2,Username3.getText().toString());
+                _appPrefs.StoreUsername(5,Username1.getText().toString());
+                _appPrefs.StoreUsername(6,Username2.getText().toString());
+                _appPrefs.StoreUsername(7,Username3.getText().toString());
 
                 break;
             case 4:
 
-                _appPrefs.StoreUsername(0,Username1.getText().toString());
-                _appPrefs.StoreUsername(1,Username2.getText().toString());
-                _appPrefs.StoreUsername(2,Username3.getText().toString());
-                _appPrefs.StoreUsername(3,Username4.getText().toString());
+                _appPrefs.StoreUsername(5,Username1.getText().toString());
+                _appPrefs.StoreUsername(6,Username2.getText().toString());
+                _appPrefs.StoreUsername(7,Username3.getText().toString());
+                _appPrefs.StoreUsername(8,Username4.getText().toString());
 
                 break;
             case 5:
-                _appPrefs.StoreUsername(0,Username1.getText().toString());
-                _appPrefs.StoreUsername(1,Username2.getText().toString());
-                _appPrefs.StoreUsername(2,Username3.getText().toString());
-                _appPrefs.StoreUsername(3,Username4.getText().toString());
-                _appPrefs.StoreUsername(4,Username5.getText().toString());
+                _appPrefs.StoreUsername(5,Username1.getText().toString());
+                _appPrefs.StoreUsername(6,Username2.getText().toString());
+                _appPrefs.StoreUsername(7,Username3.getText().toString());
+                _appPrefs.StoreUsername(8,Username4.getText().toString());
+                _appPrefs.StoreUsername(9,Username5.getText().toString());
                 break;
 
 

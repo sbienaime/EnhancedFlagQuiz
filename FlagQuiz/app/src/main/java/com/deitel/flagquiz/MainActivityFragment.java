@@ -58,7 +58,7 @@ public  class  MainActivityFragment extends Fragment{
     // String used when logging error messages
     private static final String TAG = "FlagQuiz Activity";
     int result;
-    private static  int FLAGS_IN_QUIZ = 2;
+    private static  int FLAGS_IN_QUIZ = 3;
     public static  int NumberOfPlayers;
     private static List<String> fileNameList; // flag file names
     private static List<String> quizCountriesList; // countries in current quiz
@@ -465,7 +465,7 @@ public  class  MainActivityFragment extends Fragment{
             String answer = getCountryName(correctAnswer);
             ++totalGuesses; // increment number of guesses the user has made
             Log.i("NumberOfPlayers", NumberOfPlayers+"");
-            PointsPerQuestion=NumberOfButtons*10;
+            PointsPerQuestion=NumberOfButtons*1000;
             int pointsGiven;
 
             if (guess.equals(answer)) { // if the guess is correct
@@ -570,7 +570,7 @@ public  class  MainActivityFragment extends Fragment{
                 if (correctAnswers == FLAGS_IN_QUIZ) {
 
                    String CurrentPlayerScore = Integer.toString(AccumulatedPoints);
-                    _appPrefs.StoreScore(j, CurrentPlayerScore);
+                    _appPrefs.StoreScore(j+4, CurrentPlayerScore);
 
                     if ( j == NumberOfPlayers) {
 
