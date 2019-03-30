@@ -45,7 +45,7 @@ public class MultiplayerActivity extends AppCompatActivity {
     public static final String CHOICES = "pref_numberOfChoices";
     public static final String REGIONS = "pref_regionsToInclude";
     public static final String PLAYERS ="pref_numberOfPlayers";
-
+    private AppPreferences _appPrefs;
     public static int[] PlayerScores = new int[15];
 
 
@@ -65,7 +65,7 @@ public class MultiplayerActivity extends AppCompatActivity {
         Username4 = (EditText)findViewById(R.id.player4edt);
         Username5= (EditText)findViewById(R.id.player5edt);
 
-
+        _appPrefs= new AppPreferences(this);
 
     }
     // listener for changes to the app's SharedPreferences
@@ -115,14 +115,6 @@ public class MultiplayerActivity extends AppCompatActivity {
 
 
     public void setVisibility(){
-     // MultiplayerActivity hello = new MultiplayerActivity();
-     //MainActivity.getPreferences(R.xml.preferences);
-     //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-     //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MultiplayerActivit, R.xml.preferences, false);
-     //String  n =preferences.getString(MainActivity.PLAYERS, null);
-     //SharedPreferences pref= new Sha;
-    // pref.getString(MainActivity.PLAYERS);
-//      int numPlayers = Integer.parseInt(MainActivity.PLAYERS);
 
         switch(NumberOfPlayers1){
 
@@ -166,8 +158,6 @@ public class MultiplayerActivity extends AppCompatActivity {
 
          }
 
-
-
          if(Username2.getText().toString()!=null && !Username2.getText().toString().isEmpty()){
              MainActivityFragment.Player2= Username2.getText().toString();
 
@@ -202,15 +192,42 @@ public class MultiplayerActivity extends AppCompatActivity {
     }
 
     public void play(View buttonView){
+        //Stores UserNames in SharedPreferences
+        switch(NumberOfPlayers1) {
+
+            case 1:
+                _appPrefs.StoreUsername(1,Username1.getText().toString());
+                break;
+            case 2:
+                _appPrefs.StoreUsername(1,Username1.getText().toString());
+                _appPrefs.StoreUsername(2,Username2.getText().toString());
+                break;
+            case 3:
+                _appPrefs.StoreUsername(1,Username1.getText().toString());
+                _appPrefs.StoreUsername(2,Username2.getText().toString());
+                _appPrefs.StoreUsername(3,Username3.getText().toString());
+
+                break;
+            case 4:
+
+                _appPrefs.StoreUsername(1,Username1.getText().toString());
+                _appPrefs.StoreUsername(2,Username2.getText().toString());
+                _appPrefs.StoreUsername(3,Username3.getText().toString());
+                _appPrefs.StoreUsername(4,Username4.getText().toString());
+
+                break;
+            case 5:
+                _appPrefs.StoreUsername(1,Username1.getText().toString());
+                _appPrefs.StoreUsername(2,Username2.getText().toString());
+                _appPrefs.StoreUsername(3,Username3.getText().toString());
+                _appPrefs.StoreUsername(4,Username4.getText().toString());
+                _appPrefs.StoreUsername(5,Username5.getText().toString());
+                break;
 
 
-
-        Intent preferencesIntent = new Intent(this, MainActivity.class);
-        startActivity(preferencesIntent);
-
-
-
-
+        }
+        Intent Intent = new Intent(this, MainActivity.class);
+        startActivity(Intent);
 
     }
 

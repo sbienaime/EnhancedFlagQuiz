@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.database.AbstractCursor;
 import android.graphics.drawable.Drawable;
 import android.media.VolumeShaper;
 import android.os.Bundle;
@@ -96,10 +97,11 @@ public  class  MainActivityFragment extends Fragment{
     private static LinearLayout[] guessLinearLayouts; // rows of answer Buttons
     private static TextView answerTextView; // displays correct answer
     boolean  set =false;
+    Context MainActivityFragmentContext;
 
-
-
-
+    public Context getMainActivityFragmentContext() {
+        return MainActivityFragmentContext;
+    }
 
 
     public interface OnFragmentInteractionListener {
@@ -135,7 +137,9 @@ public  class  MainActivityFragment extends Fragment{
          inflater.inflate(R.layout.fragment_main, container, false);
 
       //#preferences
-       _appPrefs = new AppPreferences(getContext());
+       MainActivityFragmentContext = getContext();
+       _appPrefs = new AppPreferences(MainActivityFragmentContext);
+
       fileNameList = new ArrayList<>();
       quizCountriesList = new ArrayList<>();
       random = new SecureRandom();
@@ -462,7 +466,7 @@ public  class  MainActivityFragment extends Fragment{
             Log.i("NumberOfPlayers", NumberOfPlayers+"");
             PointsPerQuestion=NumberOfButtons*10;
             int pointsGiven;
-       
+
             if (guess.equals(answer)) { // if the guess is correct
                 ++correctAnswers; // increment the number of correct answers
 
@@ -478,10 +482,8 @@ public  class  MainActivityFragment extends Fragment{
 // #123
                   if (AvailableAttempts==NumberOfButtons) {
                       Intent intent = new Intent(getContext(), BonusActivity.class);
-
                     // int code://#last
                       startActivityForResult(intent, 1);
-
                       onActivityResult(1,1, intent);
 
                       String hello ="pos";
@@ -566,7 +568,9 @@ public  class  MainActivityFragment extends Fragment{
                 // if the user has correctly identified FLAGS_IN_QUIZ flags
                 if (correctAnswers == FLAGS_IN_QUIZ) {
 
-                    String hello="hello";
+                   String CurrentPlayerScore = Integer.toString(AccumulatedPoints);
+                    _appPrefs.StoreScore(j, CurrentPlayerScore);
+
                     if ( j == NumberOfPlayers) {
 
 
@@ -580,7 +584,7 @@ public  class  MainActivityFragment extends Fragment{
                         });
                            for (int c= 1; c < NumberOfPlayers ; c++){
                                //#_appPrefs
-                               _appPrefs.saveSmsBody("Test INPUT");
+
 
 
                            }
