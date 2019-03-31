@@ -96,4 +96,17 @@
         android:gravity="center"
         android:hint="Top Score"
         android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/restart_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="59dp"
+        android:layout_marginEnd="161dp"
+        android:onClick="Restart"
+        android:text="RESTART" />
 </RelativeLayout>

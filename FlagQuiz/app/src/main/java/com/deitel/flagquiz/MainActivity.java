@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
    public static final String REGIONS = "pref_regionsToInclude";
    public static final String PLAYERS ="pref_numberOfPlayers";
    private boolean phoneDevice = true; // used to force portrait mode
-   private boolean preferencesChanged = true; // did preferences change?
+   public static  boolean preferencesChanged = true; // did preferences change?
 
 
    // configure the MainActivity

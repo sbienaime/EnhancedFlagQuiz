@@ -33,8 +33,8 @@
         android:layout_marginStart="81dp"
         android:layout_marginTop="335dp"
         android:layout_marginEnd="80dp"
-        android:onClick="SinglePlayer"
-        android:text="Single Player/Start" />
+        android:onClick="Start"
+        android:text="Start" />
 
     <Button
         android:id="@+id/button10"
@@ -47,7 +47,7 @@
         android:layout_marginTop="404dp"
         android:layout_marginEnd="59dp"
         android:onClick="Multiplayer"
-        android:text="Multiplayer" />
+        android:text="Multiplayer/Settings" />
 
     <TextView
         android:id="@+id/textView4"

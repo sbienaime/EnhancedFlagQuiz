@@ -21,7 +21,7 @@ public class WelcomePageActivity extends AppCompatActivity {
 
         }
 
-    public void SinglePlayer(View buttonView){
+    public void Start(View buttonView){
 
 
 

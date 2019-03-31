@@ -1,10 +1,13 @@
 package com.deitel.flagquiz;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.Output;
+import android.net.Uri;
 import android.support.design.shape.ShapePath;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +16,15 @@ import android.widget.TextView;
 import java.util.Arrays;
 
 import org.w3c.dom.Text;
-
+import android.support.v4.app.DialogFragment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public class LeaderBoardActivity extends AppCompatActivity {
+public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fragment.OnFragmentInteractionListener {
     public static SharedPreferences ScorePrefs;
     public static TextView Topscore;
     public static TextView Topscore2;
@@ -36,14 +40,30 @@ public class LeaderBoardActivity extends AppCompatActivity {
 
       return context;
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    public interface OnFragmentInteractionListener {
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
         //Intent intent =new Intent();
         Number_of_players= getIntent().getIntExtra("Number_of_players", 1);
+
+        int j = getIntent().getIntExtra("j_value", 5);
         Log.i("CHECKINGEXTRA", Number_of_players+"");
 
+        _appPrefs=new AppPreferences(this);
+
+        DialogFragment quizResults = Dialog_Fragment.newInstance(_appPrefs.RetrieveUserName(j+4),MainActivityFragment.CorrectOnFirstTry,MainActivityFragment.AccumulatedPoints);
+        quizResults.setCancelable(false);
+        quizResults.show(getSupportFragmentManager(),"Loading");
 
        //
       _appPrefs = new AppPreferences(this);
@@ -129,7 +149,17 @@ public class LeaderBoardActivity extends AppCompatActivity {
     }
 
 
+ public void Restart(View buttonView){
 
+     MainActivity.preferencesChanged =true;
+     MainActivityFragment.j=1;
+     Intent Intent = new Intent(this, WelcomePageActivity.class);
+     startActivity(Intent);
+
+
+
+
+ }
 
     public class Players {
         public String username;

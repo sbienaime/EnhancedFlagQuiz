@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,29 +45,32 @@ import android.view.ViewGroup;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// this constructor helps solve the run time error caused by not using the DialogFragment class from a non static context
-    public static Dialog_Fragment newInstance(int title, int totalguesses ) {
+    public static Dialog_Fragment newInstance(String player,int Firsts, int score  ) {
         Dialog_Fragment frag = new Dialog_Fragment();
         Bundle args = new Bundle();
-        args.putInt("title", title);
+        args.putString("player", player);
+        args.putInt("firsts", Firsts);
+        args.putInt("score", score);
         frag.setArguments(args);
-        guesses = totalguesses;
         return frag;
 
     }
 
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        int title = getArguments().getInt("title");
+        String Player = getArguments().getString("player");
+        int Score =getArguments().getInt("score");
+        int firsts =getArguments().getInt("firsts");
+
+        Log.i("THEVALUEOFTITLE", Player);
 
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(getActivity());
-        builder.setMessage(
-                getString(R.string.results,
-                        guesses,
-                        (100 / (double)guesses)));
+        builder.setMessage(Player+" You got "+firsts+" questions right on your first Try!! "+" Your Score is "+ Score);
+
 
         // "Reset Quiz" Button
-        builder.setPositiveButton(R.string.reset_quiz,
+        builder.setPositiveButton(R.string.Continue,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,
                                         int id) {

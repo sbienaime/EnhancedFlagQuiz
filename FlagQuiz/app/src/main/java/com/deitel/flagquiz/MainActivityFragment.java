@@ -31,6 +31,7 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransitionImpl;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -244,7 +245,8 @@ public  class  MainActivityFragment extends Fragment{
         AssetManager assets = getActivity().getAssets();
         //fileNameList.clear(); // empty list of image file names
         // reset j back to 1
-
+        DisplayScore.setText("");
+        IncreaseFirstTry.setText("");
         try {
             // loop through each region
             for (String region : regionsSet) {
@@ -263,7 +265,6 @@ public  class  MainActivityFragment extends Fragment{
         totalGuesses = 0; // reset the total number of guesses the user made
         quizCountriesList.clear(); // clear prior list of quiz countries
         AccumulatedPoints=0;
-        DisplayScore.setText(AccumulatedPoints+"");
         CorrectOnFirstTry=0;
         //public static TextView DisplayScore;//#cp1
         //TextView IncreaseFirstTry;
@@ -472,7 +473,7 @@ public  class  MainActivityFragment extends Fragment{
             String answer = getCountryName(correctAnswer);
             ++totalGuesses; // increment number of guesses the user has made
             Log.i("NumberOfPlayers", NumberOfPlayers+"");
-            PointsPerQuestion=NumberOfButtons*1000;
+            PointsPerQuestion=NumberOfButtons*10;
             int pointsGiven;
 
             if (guess.equals(answer)) { // if the guess is correct
@@ -576,6 +577,7 @@ public  class  MainActivityFragment extends Fragment{
                 // if the user has correctly identified FLAGS_IN_QUIZ flags
                 if (correctAnswers == FLAGS_IN_QUIZ) {
 
+
                    String CurrentPlayerScore = Integer.toString(AccumulatedPoints);
                     _appPrefs.StoreScore(j+4, CurrentPlayerScore);
 
@@ -601,56 +603,36 @@ public  class  MainActivityFragment extends Fragment{
                         // DialogFragment to display quiz stats and start new quiz
 
                         //#lastchange
-                        DialogFragment quizResults = Dialog_Fragment.newInstance(1, totalGuesses);
-                        quizResults.setCancelable(false);
-                        quizResults.show(getFragmentManager(), "restarting_quiz");
-                        handler.postDelayed(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
 
-                                       resetQuiz();//// create method that delays reset
-                                    }
-                                }, 5000); // 2000 milliseconds for 2-second delay
+                         // 2000 milliseconds for 2-second delay
 
                         Log.i("Won", "Player X won ");
 
                         Intent intent = new Intent(getContext(), LeaderBoardActivity.class);
                         intent.putExtra("Number_of_players",NumberOfPlayers);
+                        intent.putExtra("j_value",j);
                         startActivity(intent);
+
+                                handler.postDelayed(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        resetQuiz();//// create method that delays reset
+                                    }
+                                }, 2000);
 
                     }
 
                     else {
+                        DialogFragment quizResults = Dialog_Fragment.newInstance(_appPrefs.RetrieveUserName(j+4),CorrectOnFirstTry,AccumulatedPoints );
+                        quizResults.setCancelable(false);
+                        quizResults.show(getFragmentManager(), "Loading");
 
 
-                      /*  switch (j){
-
-                            case 0:  PlayerScores[j]= AccumulatedPoints;
-                                PlayersList.add(new Players(Player1,  "TEST"));
-                                Log.i("SwitchPoints", AccumulatedPoints+"");
-                                break;
-                                case 1: Player1Score=AccumulatedPoints ;
-                                PlayersList.add(new Players(Player2, "TEST"));
-                                    Log.i("SwitchPoints", AccumulatedPoints+"");
-                                break;
-                             case 2: Player2Score = AccumulatedPoints;
-                                 PlayersList.add(new Players(Player3, "TEST"));
-                                 Log.i("SwitchPoints", AccumulatedPoints+"");
-                                break;
-                            case 3:  Player3Score = AccumulatedPoints;
-                                PlayersList.add(new Players(Player4,  "TEST"));
-
-                                Log.i("SwitchPoints", AccumulatedPoints+"");
-
-                                break;
-                            case 4:  Player4Score = AccumulatedPoints;
-                                Log.i("SwitchPoints", AccumulatedPoints+"");
-                                PlayersList.add(new Players(Player1,  "TEST"));
-                                break;
-
-                        }*/
                         j++;
+                        CorrectOnFirstTry=0;
+                        AccumulatedPoints=0;
                         CurrentPlayerDisplayer.setText(_appPrefs.RetrieveUserName(j+4)+"'s turn");
                         // keeps track of how many players have played
                         SoftresetQuiz();
