@@ -1,8 +1,4 @@
 package com.deitel.flagquiz;
-
-
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -11,13 +7,11 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import java.util.Set;
 
 
@@ -41,10 +35,6 @@ public class BonusActivity  extends AppCompatActivity {
          //set default values in the app's SharedPreferences
            PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        // register listener for SharedPreferences changes
-        // PreferenceManager.getDefaultSharedPreferences(this).
-        //  registerOnSharedPreferenceChangeListener(
-        // preferencesChangeListener);
 
         // determine screen size
         int screenSize = getResources().getConfiguration().screenLayout &

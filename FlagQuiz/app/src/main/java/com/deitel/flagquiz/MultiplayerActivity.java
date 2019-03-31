@@ -1,35 +1,17 @@
 package com.deitel.flagquiz;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.ActivityInfo;
-//import android.content.res.Configuration;
-import android.content.res.Configuration;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
-import java.util.Set;
 
 
 public class MultiplayerActivity extends AppCompatActivity {
@@ -42,11 +24,9 @@ public class MultiplayerActivity extends AppCompatActivity {
     public static EditText Username4 ;
     public static EditText Username5 ;
     int NumberOfPlayers1;
-    public static final String CHOICES = "pref_numberOfChoices";
-    public static final String REGIONS = "pref_regionsToInclude";
     public static final String PLAYERS ="pref_numberOfPlayers";
     private AppPreferences _appPrefs;
-    public static int[] PlayerScores = new int[15];
+
 
 
     @Override
@@ -193,47 +173,74 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     public void play(View buttonView){
         Log.i("NUMBEROFPLAYERSMULTI", NumberOfPlayers1+" ");
-        //Stores UserNames in SharedPreferences
-        switch(NumberOfPlayers1) {
+        if (ValidateUserName()) {
 
-            case 1:
-                _appPrefs.StoreUsername(5,Username1.getText().toString());
-                break;
-            case 2:
-                _appPrefs.StoreUsername(5,Username1.getText().toString());
-                _appPrefs.StoreUsername(6,Username2.getText().toString());
-                break;
-            case 3:
-                _appPrefs.StoreUsername(5,Username1.getText().toString());
-                _appPrefs.StoreUsername(6,Username2.getText().toString());
-                _appPrefs.StoreUsername(7,Username3.getText().toString());
-
-                break;
-            case 4:
-
-                _appPrefs.StoreUsername(5,Username1.getText().toString());
-                _appPrefs.StoreUsername(6,Username2.getText().toString());
-                _appPrefs.StoreUsername(7,Username3.getText().toString());
-                _appPrefs.StoreUsername(8,Username4.getText().toString());
-
-                break;
-            case 5:
-                _appPrefs.StoreUsername(5,Username1.getText().toString());
-                _appPrefs.StoreUsername(6,Username2.getText().toString());
-                _appPrefs.StoreUsername(7,Username3.getText().toString());
-                _appPrefs.StoreUsername(8,Username4.getText().toString());
-                _appPrefs.StoreUsername(9,Username5.getText().toString());
-                break;
-
+            Intent Intent = new Intent(this, MainActivity.class);
+            startActivity(Intent);
 
         }
-        Intent Intent = new Intent(this, MainActivity.class);
-        startActivity(Intent);
-
-
     }
 
+    public boolean ValidateUserName(){
 
+        boolean status;
+
+        if( TextUtils.isEmpty(Username1.getText())&Username1.getVisibility() == View.VISIBLE|
+                TextUtils.isEmpty(Username2.getText())&Username2.getVisibility() == View.VISIBLE|
+                TextUtils.isEmpty(Username3.getText())&Username3.getVisibility() == View.VISIBLE
+                |TextUtils.isEmpty(Username4.getText())&Username4.getVisibility() == View.VISIBLE|
+                TextUtils.isEmpty(Username5.getText())&Username5.getVisibility() == View.VISIBLE){
+            /**
+             *   You can Toast a message here that the Username is Empty
+             **/
+            Username1.setError( "Username is required!" );
+            Username2.setError( "Username is required!" );
+            Username3.setError( "Username is required!" );
+            Username4.setError( "Username is required!" );
+            Username5.setError( "Username is required!" );
+            status= false;
+
+        }else{
+            switch (NumberOfPlayers1) {
+
+                case 1:
+                    _appPrefs.StoreUsername(5, Username1.getText().toString());
+                    break;
+                case 2:
+                    _appPrefs.StoreUsername(5, Username1.getText().toString());
+                    _appPrefs.StoreUsername(6, Username2.getText().toString());
+                    break;
+                case 3:
+                    _appPrefs.StoreUsername(5, Username1.getText().toString());
+                    _appPrefs.StoreUsername(6, Username2.getText().toString());
+                    _appPrefs.StoreUsername(7, Username3.getText().toString());
+
+                    break;
+                case 4:
+
+                    _appPrefs.StoreUsername(5, Username1.getText().toString());
+                    _appPrefs.StoreUsername(6, Username2.getText().toString());
+                    _appPrefs.StoreUsername(7, Username3.getText().toString());
+                    _appPrefs.StoreUsername(8, Username4.getText().toString());
+
+                    break;
+                case 5:
+                    _appPrefs.StoreUsername(5, Username1.getText().toString());
+                    _appPrefs.StoreUsername(6, Username2.getText().toString());
+                    _appPrefs.StoreUsername(7, Username3.getText().toString());
+                    _appPrefs.StoreUsername(8, Username4.getText().toString());
+                    _appPrefs.StoreUsername(9, Username5.getText().toString());
+                    break;
+
+
+            }
+
+         status=true ;
+
+        }
+        return status;
+
+    }
 
 
 

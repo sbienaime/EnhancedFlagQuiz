@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             MainActivityFragment quizFragment = (MainActivityFragment)
                getSupportFragmentManager().findFragmentById(
                   R.id.quizFragment);
-
+             // Method resets the quiz when the Number of players is modified
              if (key.equals(PLAYERS)){MainActivityFragment.updateNumberOfPlayers(sharedPreferences);
             quizFragment.resetQuiz();
              quizFragment.updateNumberOfPlayers(sharedPreferences);

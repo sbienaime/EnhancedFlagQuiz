@@ -36,10 +36,6 @@ public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fra
     public static ArrayList<Players> PlayersList =new ArrayList<>();
 
 
-    public Context getPrefContext( Context context){
-
-      return context;
-    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -53,9 +49,11 @@ public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
-        //Intent intent =new Intent();
+
+        // gets the the value passed by the calling activity
         Number_of_players= getIntent().getIntExtra("Number_of_players", 1);
 
+        // gets the value passed by the calling activity , the j value +1 allows us to access the usernames and scores in the sharedPreferences
         int j = getIntent().getIntExtra("j_value", 5);
         Log.i("CHECKINGEXTRA", Number_of_players+"");
 
@@ -67,22 +65,24 @@ public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fra
 
        //
       _appPrefs = new AppPreferences(this);
-      //Code for resetting shared Preferences
+
+
+      // Code below used  for resetting shared Preferences-- For programmer use only , sometimes bad data gets into sharedPreferences while testing
         /*for (int i=0 ; i <10; i++){
             _appPrefs.StoreUsername(i, null);
             _appPrefs.StoreScore(i, null);
-
         }*/
+        // Code above used for resetting shared Preferences-- For programmer use only , sometimes bad data gets into sharedPreferences while testing
         for (int i=0 ; i <10; i++){
            String Username= _appPrefs.RetrieveUserName(i);
            String Score=_appPrefs.RetrieveScore(i);
 
            PlayersList.add(new Players(Username,Score));
-           Log.i("BEFORESORT",PlayersList.get(i).toString());
+           Log.i("BEFORESORT",PlayersList.get(i).toString());// More debugging , verifying outputs
 
         }
 
-        // Sort the Scores in Ascending Order
+        // Sorts the Scores in Descending Order , and therefore puts the usernames in the right order also since they are stored in one object
         Collections.sort(PlayersList, new Comparator<Players>() {//#compar
             @Override
             //Descending Sort
@@ -91,6 +91,9 @@ public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fra
             }
         });
 
+
+
+        // This loop puts the Scores and Usernames back in shared preferences in the correct order
         for (int i=0 ; i <10; i++) {
 
             _appPrefs.StoreScore(i,PlayersList.get(i).GetScore()+"");
@@ -101,7 +104,7 @@ public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fra
 
 
 
-
+        //these variables are associated with the text views in the layout/ sorry for the bad id names
         Topscore = (TextView)findViewById(R.id.h1);
         Topscore2 = (TextView)findViewById(R.id.h2);
         Topscore3 = (TextView)findViewById(R.id.h3);
@@ -110,25 +113,13 @@ public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fra
 
 
 
-
-          // Arrays.sort(MainActivityFragment.PlayerScores);
-        // Topscore.setText(MainActivityFragment.PlayersList.get(0).username+"" +MainActivityFragment.PlayersList.get(0).Score+"");
-
-        Log.i("PASSED-SHAREDPREFERENCE",  _appPrefs.RetrieveScore(1)+" ");
+        Log.i("PASSED-SHAREDPREFERENCE",  _appPrefs.RetrieveScore(1)+" ");// More debugging , verifying outputs
 
         Log.i("PASSEDUSERNAME",_appPrefs.RetrieveUserName(1)+" "+_appPrefs.RetrieveScore(1) );
 
 
-
-
-
-
-
-
-
-
-
-
+        //Checking if the shared preference value is not not before displaying it
+        //Displaying  the values in positions 0-4 for of shared preferences
         if ( _appPrefs.RetrieveScore(0)!=null) {
             Topscore.setText(_appPrefs.RetrieveUserName(0) + " " +_appPrefs.RetrieveScore(0)); }
 
@@ -148,23 +139,21 @@ public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fra
 
     }
 
-
+//Onclick listener method that sends us back to the beginning of the game after we are done reviewing the scores
  public void Restart(View buttonView){
-
      MainActivity.preferencesChanged =true;
      MainActivityFragment.j=1;
      Intent Intent = new Intent(this, WelcomePageActivity.class);
      startActivity(Intent);
 
-
-
-
  }
-
+   /// subclass that allows us to store usenames and scores in one object
+    // these objects are passed to an ArrayList and then  sorted to find the top scores before displaying to the leaderboard
     public class Players {
         public String username;
         public int  Score;
 
+        //I was getting a Number format exception for some reason so I decided to pass the score as a string , then parse it back to and int for sorting purposes
 
         public Players(String username, String Score) {
             this.username = username;
@@ -178,7 +167,7 @@ public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fra
          return Output;
 
         }
-
+        //This method allows direct access to the username which allows me to format my strings better
         public String GetUserName()
         {
 
@@ -187,7 +176,7 @@ public class LeaderBoardActivity extends AppCompatActivity implements Dialog_Fra
 
         }
 
-
+       //This method allows direct access to the score which allows me to format my strings better
         public int GetScore(){
 
         return  this.Score;

@@ -45,6 +45,8 @@ import android.view.ViewGroup;
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// this constructor helps solve the run time error caused by not using the DialogFragment class from a non static context
+    // The players information is passed to the dialog fragment in order to give them a summary of their gam play
+    // This information is passed through the constructor
     public static Dialog_Fragment newInstance(String player,int Firsts, int score  ) {
         Dialog_Fragment frag = new Dialog_Fragment();
         Bundle args = new Bundle();
@@ -62,14 +64,14 @@ import android.view.ViewGroup;
         int Score =getArguments().getInt("score");
         int firsts =getArguments().getInt("firsts");
 
-        Log.i("THEVALUEOFTITLE", Player);
+        Log.i("THEVALUEOFTITLE", Player);// Debugging
 
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(getActivity());
-        builder.setMessage(Player+" You got "+firsts+" questions right on your first Try!! "+" Your Score is "+ Score);
+        builder.setMessage(Player+" You got "+firsts+" questions right on your first try. "+" Your Score is "+ Score +".");
 
 
-        // "Reset Quiz" Button
+        // "Continue Quiz " Button
         builder.setPositiveButton(R.string.Continue,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,

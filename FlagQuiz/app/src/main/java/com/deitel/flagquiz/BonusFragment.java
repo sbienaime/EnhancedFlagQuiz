@@ -13,21 +13,14 @@ import java.util.Set;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.media.VolumeShaper;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,10 +34,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 
-import org.w3c.dom.Text;
+
 
 public  class  BonusFragment extends Fragment{
     // String used when logging error messages
@@ -69,29 +60,17 @@ public  class  BonusFragment extends Fragment{
     static int NumberOfButtons;
     static int PointsPerQuestion;
     static int AccumulatedPoints;
-   // static int CorrectOnFirstTry;
-   // TextView DisplayScore;//#cp1
-   // TextView IncreaseFirstTry;
-    int CurrentPlayer;
-    int NumberofPlayers;
-    String[] PlayerNames = new String[10];
-    //#lp
     private static LinearLayout quizLinearLayout; // layout that contains the quiz
     private static TextView questionNumberTextView; // shows current question #
     private static  ImageView flagImageView; // displays a flag
     private static LinearLayout[] guessLinearLayouts; // rows of answer Buttons
     private static TextView answerTextView; // displays correct answer
-    boolean  set =false;
+
     public interface OnFragmentInteractionListener {
 
     }
 
-    public static void increaseScore() {
-//#lp2
 
-
-
-    }
     // configures the MainActivityFragment when its View is created
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,8 +87,7 @@ public  class  BonusFragment extends Fragment{
         quizCountriesList = new ArrayList<>();
         random = new SecureRandom();
         handler = new Handler();
-       // IncreaseFirstTry =  (TextView) view.findViewById(R.id.FirstAttemptsDisplayer);
-        //DisplayScore =  (TextView) view.findViewById(R.id.ScoreDisplayer);
+
         // load the shake animation that's used for incorrect answers
         shakeAnimation = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.incorrect_shake);
@@ -244,10 +222,7 @@ public  class  BonusFragment extends Fragment{
 
     // set up and start the next quiz
     public void resetQuiz() {
-       // AccumulatedPoints=0;
-      //  CorrectOnFirstTry=0;
-        //DisplayScore.setText("0");
-        //IncreaseFirstTry.setText("0");
+
         // use AssetManager to get image file names for enabled regions
         AssetManager assets = getActivity().getAssets();
         fileNameList.clear(); // empty list of image file names
@@ -357,79 +332,6 @@ public  class  BonusFragment extends Fragment{
 
 
 
-    // after the user guesses a correct flag, load the next flag
-
-    private  void loadBonusFlag() {
-
-        AvailableAttempts=guessRows*2;
-        // get file name of the next flag and remove it from the list
-        String nextImage = quizCountriesList.remove(0);
-        correctAnswer = nextImage; // update the correct answer
-        answerTextView.setText(""); // clear answerTextView
-
-        // display current question number
-        questionNumberTextView.setText("Bonus Question !!!!!");//#lp12
-        questionNumberTextView.setTextColor(
-                getResources().getColor(R.color.correct_answer,
-                        getContext().getTheme()));
-
-        // extract the region from the next image's name
-        String region = nextImage.substring(0, nextImage.indexOf('-'));
-
-        // use AssetManager to load next image from assets folder
-        AssetManager assets = getActivity().getAssets();
-
-
-
-
-
-        // get an InputStream to the asset representing the next flag
-        // and try to use the InputStream
-        try (InputStream stream =
-                     assets.open(region + "/" + nextImage + ".png")) {
-            // load the asset as a Drawable and display on the flagImageView
-            Drawable flag = Drawable.createFromStream(stream, nextImage);
-            flagImageView.setImageDrawable(flag);
-
-            animate(false); // animate the flag onto the screen
-        }
-        catch (IOException exception) {
-            Log.e(TAG, "Error loading " + nextImage, exception);
-        }
-
-        Collections.shuffle(fileNameList); // shuffle file names
-
-        // put the correct answer at the end of fileNameList
-        int correct = fileNameList.indexOf(correctAnswer);
-        fileNameList.add(fileNameList.remove(correct));
-
-        // add 2, 4, 6 or 8 guess Buttons based on the value of guessRows
-        for (int row = 0; row < guessRows; row++) {
-            // place Buttons in currentTableRow
-            for (int column = 0;
-                 column < guessLinearLayouts[row].getChildCount();
-                 column++) {
-                // get reference to Button to configure
-                Button newGuessButton =
-                        (Button) guessLinearLayouts[row].getChildAt(column);
-                newGuessButton.setEnabled(true);
-
-                // get country name and set it as newGuessButton's text
-                String filename = fileNameList.get((row * 2) + column);
-                newGuessButton.setText(getCityName(filename));
-            }
-        }
-
-        // randomly replace one Button with the correct answer
-        int row = random.nextInt(guessRows); // pick random row
-        int column = random.nextInt(2); // pick random column
-        LinearLayout randomRow = guessLinearLayouts[row]; // get the row
-        String countryName = getCityName(correctAnswer);
-        ((Button) randomRow.getChildAt(column)).setText(countryName);
-    }
-
-
-
     private  void loadNextFlag() {
         AvailableAttempts=guessRows*2;
         // get file name of the next flag and remove it from the list
@@ -496,6 +398,7 @@ public  class  BonusFragment extends Fragment{
     }
 
     // parses the country flag file name and returns the country name
+    //this is a modified version that gets the city name , check the logs to see how it works
     private static String getCityName(String name) {
         Log.i("NAME",name);
         String CountryAndCity= name.substring(name.indexOf('-') + 1).replace('_', ' ');
@@ -597,15 +500,9 @@ public  class  BonusFragment extends Fragment{
 
                     // display correct answer in green text
                     answerTextView.setText(" 100 Points Extra ");
-                    //DisplayScore.setText(AccumulatedPoints+"");
-                    //answerTextView.setTextColor(
-                            //getResources().getColor(R.color.correct_answer,
-                                 //   getContext().getTheme()));
-                int position =100;
-                //#intent
-                Intent intent  = new Intent();
-               // intent.putExtra("pos1", position);
-                //getActivity().setResult(Activity.RESULT_OK, intent );
+
+
+                    // this adds an additional 100 points if the user gets the question right
                 MainActivityFragment.AccumulatedPoints =  MainActivityFragment.AccumulatedPoints +100;
                MainActivityFragment.DisplayScore.setText(MainActivityFragment.AccumulatedPoints+" ");
                 getActivity().finish();
@@ -614,31 +511,16 @@ public  class  BonusFragment extends Fragment{
 
 
                 flagImageView.startAnimation(shakeAnimation); // play shake
-
-
-
-
                 answerTextView.setText(R.string.incorrect_answer);
                 answerTextView.setTextColor(getResources().getColor(
                         R.color.incorrect_answer, getContext().getTheme()));
                 guessButton.setEnabled(false); // disable incorrect answer
-
-
-
-
-                      //  Intent myIntent = new Intent(getContext(), MainActivity.class);
-                //myIntent.putExtra("key", 1); //Optional parameters
-               // startActivity(myIntent);
                 handler.postDelayed(
                                         new Runnable() {
                                             @Override
                                             public void run() {
 
                                                 answerTextView.setText(" Sorry :( ");
-                                                //answerTextView.setTextColor(
-                                                  // getActivity().getResources().getColor(R.color.incorrect_answer,
-                                                                //getActivity().getTheme()));
-
                                                 answerTextView.setText(" ");
                                             }
                                         }, 500); // 2000 milliseconds for 2-second dela
