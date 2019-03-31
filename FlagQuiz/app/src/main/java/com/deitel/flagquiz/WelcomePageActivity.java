@@ -14,27 +14,14 @@ public class WelcomePageActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
         }
 
     public void Start(View buttonView){
 
 
 
-
-
-
         Intent Intent = new Intent(this, MultiplayerActivity.class);
         startActivity(Intent);
-
-
-
-
-
 
 
 

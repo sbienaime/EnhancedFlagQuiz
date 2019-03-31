@@ -19,14 +19,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
-import android.media.VolumeShaper;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransitionImpl;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,13 +35,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-
-import org.w3c.dom.Text;
 
 public  class  MainActivityFragment extends Fragment{
-    public static SharedPreferences prefs;
     public static String Player1;
     public static String Player2;
     public static String Player3;
@@ -55,7 +46,7 @@ public  class  MainActivityFragment extends Fragment{
     // String used when logging error messages
     private static final String TAG = "FlagQuiz Activity";
     int result;
-    private static  int FLAGS_IN_QUIZ = 3;
+    private static  int FLAGS_IN_QUIZ = 10;
     public static  int NumberOfPlayers;
     private static List<String> fileNameList; // flag file names
     private static List<String> quizCountriesList; // countries in current quiz
@@ -70,23 +61,14 @@ public  class  MainActivityFragment extends Fragment{
     public static Context context;
     static int deduction=0;
     static int AvailableAttempts;
-    public static int Player1Score;
-    public static int Player2Score;
-    public static int Player3Score;
-    public static int Player4Score;
-    public static int Player5Score;
-    public static int[] PlayerScores = new int[15];
     public static int j=1; // stops the quiz when i is = to number of players
     static int NumberOfButtons;//#number
     static int PointsPerQuestion;
     public static int AccumulatedPoints;
     static int CorrectOnFirstTry;
-    private static ArrayList<Players>PlayersList =new ArrayList();
+
     public static TextView DisplayScore;//#cp1
     TextView IncreaseFirstTry;
-    int CurrentPlayer;
-    //public static int NumberofPlayers;
-    String[] PlayerNames = new String[10];
     private AppPreferences _appPrefs;
     private static LinearLayout quizLinearLayout; // layout that contains the quiz
     private static TextView questionNumberTextView; // shows current question #
@@ -105,21 +87,9 @@ public  class  MainActivityFragment extends Fragment{
 
     }
 
-    public static void increaseScore() {
-
-    }
 
 
 
- private class Players {
-        public String username;
-        public int  Score;
-        public Players(String username, String Score) {
-             this.username = username;
-             this.Score = Integer.parseInt(Score);
-        }
-
-    }
 
 
 
@@ -133,7 +103,6 @@ public  class  MainActivityFragment extends Fragment{
       super.onCreateView(inflater, container, savedInstanceState);
       View view =
          inflater.inflate(R.layout.fragment_main, container, false);
-
        //#preferences
        MainActivityFragmentContext = getContext();
        _appPrefs = new AppPreferences(MainActivityFragmentContext);
@@ -194,7 +163,7 @@ public  class  MainActivityFragment extends Fragment{
 
 
 
-
+///This checks the value in shared preferences and updates the number of players
    public static  void updateNumberOfPlayers(SharedPreferences sharedPreferences) {
       String players =
               sharedPreferences.getString(MainActivity.PLAYERS, null);
@@ -238,8 +207,6 @@ public  class  MainActivityFragment extends Fragment{
     public void  SoftresetQuiz() {
         // use AssetManager to get image file names for enabled regions
         AssetManager assets = getActivity().getAssets();
-        //fileNameList.clear(); // empty list of image file names
-        // reset j back to 1
         DisplayScore.setText("");
         IncreaseFirstTry.setText("");
         try {
@@ -483,25 +450,22 @@ public  class  MainActivityFragment extends Fragment{
                                 getContext().getTheme()));
 
 
-// #123
+                // if the number of available attempts is equal to the number of buttons , the user got it right on the first try
                   if (AvailableAttempts==NumberOfButtons) {
                       Intent intent = new Intent(getContext(), BonusActivity.class);
-                    // int code://#last
                       startActivityForResult(intent, 1);
                       onActivityResult(1,1, intent);
 
-                      String hello ="pos";
-                      Log.i("PASSED BY INTENT",result+"");
-                      Log.i("STORED In Pref",hello);
-                      // was used to keep quiz to 10 questions , most likely unecessary due to updates
-                     //  ****correctAnswers--;
-                      CorrectOnFirstTry++;
-                      Log.i( "FirstTry" ,CorrectOnFirstTry + "");
-                      deduction=0;
-                      AccumulatedPoints = AccumulatedPoints + PointsPerQuestion;
-                      Log.i("AccumulatePoints",AccumulatedPoints+"");
 
-                    //  loadBonusFlag();
+                      Log.i("PASSED BY INTENT",result+"");// Debugging
+
+                      CorrectOnFirstTry++;// Increase number of answers correct on the first attempt
+                      Log.i( "FirstTry" ,CorrectOnFirstTry + "");// More Debugging
+
+                      deduction=0;// reset the amount of points to be deducted because the user will be asked a new question
+                      AccumulatedPoints = AccumulatedPoints + PointsPerQuestion;// Increase the number of points the user has
+                      Log.i("AccumulatePoints",AccumulatedPoints+"");// More Debugging
+
 
 
                       handler.postDelayed(
@@ -509,7 +473,7 @@ public  class  MainActivityFragment extends Fragment{
                                   @Override
                                   public void run() {
 
-
+                                     // update the user's stats
                                       DisplayScore.setText(AccumulatedPoints+"");
                                       IncreaseFirstTry.setText(CorrectOnFirstTry+"");
                                       answerTextView.setTextColor(
@@ -529,9 +493,12 @@ public  class  MainActivityFragment extends Fragment{
                             new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.i( "POintsPerQuestion" ,PointsPerQuestion + "");
+                                    Log.i( "POintsPerQuestion" ,PointsPerQuestion + "");// Debugging
 
+                                    // This deducts points depending on how many question the user got wrong
                                     int points_Given= PointsPerQuestion - deduction*10;
+
+
                                     // stops user from getting points if they have used all attempts
                                     if (points_Given==10){
 
@@ -554,9 +521,15 @@ public  class  MainActivityFragment extends Fragment{
                                                         getContext().getTheme()));
 
                                         Log.i("AcummulatedPoints ",AccumulatedPoints+"");
-                                    }//rest points given and deductions after  correct answer has been given
+                                    }
+
+
+                                    //rest pointsgiven and deductions after  correct answer has been given
                                     deduction=0;
                                     points_Given=0;
+
+
+
                                 }
                             }, 3000); // 2000 milliseconds for 2-second delay
 
@@ -571,38 +544,13 @@ public  class  MainActivityFragment extends Fragment{
 
                 // if the user has correctly identified FLAGS_IN_QUIZ flags
                 if (correctAnswers == FLAGS_IN_QUIZ) {
-
-
+                    // This passes the current players score to shared preferences
                    String CurrentPlayerScore = Integer.toString(AccumulatedPoints);
                     _appPrefs.StoreScore(j+4, CurrentPlayerScore);
 
+                    // this if statement checks if the all players have played
                     if ( j == NumberOfPlayers) {
-
-
-
-                        Collections.sort(PlayersList, new Comparator<Players>() {//#compar
-                            @Override
-                            //Descending Sort
-                            public int compare(Players o1, Players o2) {
-                                return Integer.valueOf(o2.Score).compareTo(o1.Score);
-                            }
-                        });
-                           for (int c= 1; c < NumberOfPlayers ; c++){
-                               //#_appPrefs
-
-
-
-                           }
-
-                        CorrectOnFirstTry = 0;
-                        // DialogFragment to display quiz stats and start new quiz
-
-                        //#lastchange
-
-                         // 2000 milliseconds for 2-second delay
-
-                        Log.i("Won", "Player X won ");
-
+                        // Calling the leader board activity
                         Intent intent = new Intent(getContext(), LeaderBoardActivity.class);
                         intent.putExtra("Number_of_players",NumberOfPlayers);
                         intent.putExtra("j_value",j);
@@ -626,8 +574,7 @@ public  class  MainActivityFragment extends Fragment{
 
 
                         j++;
-                        CorrectOnFirstTry=0;
-                        AccumulatedPoints=0;
+
                         CurrentPlayerDisplayer.setText(_appPrefs.RetrieveUserName(j+4)+"'s turn");
                         // keeps track of how many players have played
                         SoftresetQuiz();

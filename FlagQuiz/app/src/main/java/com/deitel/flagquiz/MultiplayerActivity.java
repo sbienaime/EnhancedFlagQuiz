@@ -25,6 +25,7 @@ public class MultiplayerActivity extends AppCompatActivity {
     public static EditText Username5 ;
     int NumberOfPlayers1;
     public static final String PLAYERS ="pref_numberOfPlayers";
+    // Creates an AppPreferences object that gives this activity access to the shared preference file of the entire app
     private AppPreferences _appPrefs;
 
 
@@ -56,10 +57,13 @@ public class MultiplayerActivity extends AppCompatActivity {
                 public void onSharedPreferenceChanged(
                         SharedPreferences sharedPreferences, String key) {
                     preferencesChanged = true; // user changed app setting
-                    Log.i("NUMBEROFPLAYERSMULTI", NumberOfPlayers1+" ");
+
+                    Log.i("NUMBEROFPLAYERSMULTI", NumberOfPlayers1+" ");//Debugging , checking values
+
+
+                    //We update the value for number of players so that we know how many text boxes to display
                     if (key.equals(PLAYERS)){
-                        String players =
-                                sharedPreferences.getString(PLAYERS, null);
+                        String players = sharedPreferences.getString(PLAYERS, null);
                         NumberOfPlayers1 = Integer.parseInt(players);
 
                     }
@@ -93,7 +97,7 @@ public class MultiplayerActivity extends AppCompatActivity {
     }
 
 
-
+  /// This checks how many player are in the game and makes the appropriate number of text boxes available
     public void setVisibility(){
 
         switch(NumberOfPlayers1){
@@ -129,50 +133,12 @@ public class MultiplayerActivity extends AppCompatActivity {
     }
 
 
-    public static void setUserNames() {
-
-         if(Username1.getText().toString()!=null && !Username1.getText().toString().isEmpty()){
-
-             MainActivityFragment.Player1= Username1.getText().toString();
-
-
-         }
-
-         if(Username2.getText().toString()!=null && !Username2.getText().toString().isEmpty()){
-             MainActivityFragment.Player2= Username2.getText().toString();
-
-
-         }
-
-         if(Username3.getText().toString()!=null && !Username3.getText().toString().isEmpty()){
-
-             MainActivityFragment.Player3= Username3.getText().toString();
-
-         }
-
-         if(Username4.getText().toString()!=null && !Username4.getText().toString().isEmpty()){
-
-             MainActivityFragment.Player4= Username4.getText().toString();
-
-         }
-
-
-         if(Username5.getText().toString()!=null && !Username5.getText().toString().isEmpty()){
-
-             MainActivityFragment.Player5= Username5.getText().toString();
-
-
-         }
-
-
-
-    
-         
-
-    }
-
+    // This is the onclick listener method that allows us to start the game once user input has been validated
     public void play(View buttonView){
-        Log.i("NUMBEROFPLAYERSMULTI", NumberOfPlayers1+" ");
+
+
+        Log.i("NUMBEROFPLAYERSMULTI", NumberOfPlayers1+" ");// More Debugging
+        // this if statement  checks if all text fields are filled or it does not all the game to proceed
         if (ValidateUserName()) {
 
             Intent Intent = new Intent(this, MainActivity.class);
@@ -181,6 +147,8 @@ public class MultiplayerActivity extends AppCompatActivity {
         }
     }
 
+
+    //this validates username data, it does not allow users to leave visible text boxes blank  and returns a boolean value to allow the game to proceed or not
     public boolean ValidateUserName(){
 
         boolean status;

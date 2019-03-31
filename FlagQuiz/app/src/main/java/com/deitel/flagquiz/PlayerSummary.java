@@ -3,7 +3,7 @@ package com.deitel.flagquiz;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class PlayerSummary extends AppCompatActivity {
+public class PlayerSummary extends AppCompatActivity {//this Class was not used
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
