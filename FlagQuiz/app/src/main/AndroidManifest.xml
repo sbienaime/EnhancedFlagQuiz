@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MultiplayerActivity"></activity>
+        <activity android:name=".PlayerSummary"></activity>
+        <activity android:name=".MultiplayerActivity" />
         <activity android:name=".LeaderBoardActivity" />
         <activity android:name=".BonusActivity" />
         <activity android:name=".WelcomePageActivity">

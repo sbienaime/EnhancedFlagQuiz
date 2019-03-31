@@ -109,7 +109,13 @@
         android:contentDescription="@string/image_description"
         android:scaleType="fitCenter" />
 
-   <TextView
+    <TextView
+        android:id="@+id/h10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" />
+
+    <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textAppearance="?android:attr/textAppearanceMedium"
@@ -117,7 +123,7 @@
       android:id="@+id/guessCountryTextView"
       android:layout_gravity="center_horizontal"/>
 
-   <LinearLayout
+    <LinearLayout
       android:orientation="horizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

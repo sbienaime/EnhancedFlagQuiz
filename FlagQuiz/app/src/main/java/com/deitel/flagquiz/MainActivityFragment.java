@@ -55,6 +55,7 @@ public  class  MainActivityFragment extends Fragment{
     public static String Player3;
     public static String Player4;
     public static String Player5;
+
     // String used when logging error messages
     private static final String TAG = "FlagQuiz Activity";
     int result;
@@ -98,7 +99,7 @@ public  class  MainActivityFragment extends Fragment{
     private static TextView answerTextView; // displays correct answer
     boolean  set =false;
     Context MainActivityFragmentContext;
-
+    TextView CurrentPlayerDisplayer;
     public Context getMainActivityFragmentContext() {
         return MainActivityFragmentContext;
     }
@@ -137,9 +138,13 @@ public  class  MainActivityFragment extends Fragment{
       View view =
          inflater.inflate(R.layout.fragment_main, container, false);
 
-      //#preferences
+       //#preferences
        MainActivityFragmentContext = getContext();
        _appPrefs = new AppPreferences(MainActivityFragmentContext);
+
+
+      CurrentPlayerDisplayer=(TextView)view.findViewById(R.id.h10);
+      CurrentPlayerDisplayer.setText( _appPrefs.RetrieveUserName(5)+"'s turn");
 
       fileNameList = new ArrayList<>();
       quizCountriesList = new ArrayList<>();
@@ -238,6 +243,7 @@ public  class  MainActivityFragment extends Fragment{
         // use AssetManager to get image file names for enabled regions
         AssetManager assets = getActivity().getAssets();
         //fileNameList.clear(); // empty list of image file names
+        // reset j back to 1
 
         try {
             // loop through each region
@@ -288,6 +294,7 @@ public  class  MainActivityFragment extends Fragment{
    // set up and start the next quiz
    public void resetQuiz() {
         AccumulatedPoints=0;
+        j=1;
         CorrectOnFirstTry=0;//#shared pref
        DisplayScore.setText("0");
        IncreaseFirstTry.setText("0");
@@ -602,7 +609,7 @@ public  class  MainActivityFragment extends Fragment{
                                     @Override
                                     public void run() {
 
-                                        resetQuiz();//// create method that delays reset
+                                       resetQuiz();//// create method that delays reset
                                     }
                                 }, 5000); // 2000 milliseconds for 2-second delay
 
@@ -644,6 +651,7 @@ public  class  MainActivityFragment extends Fragment{
 
                         }*/
                         j++;
+                        CurrentPlayerDisplayer.setText(_appPrefs.RetrieveUserName(j+4)+"'s turn");
                         // keeps track of how many players have played
                         SoftresetQuiz();
 
